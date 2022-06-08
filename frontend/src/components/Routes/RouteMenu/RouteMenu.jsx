@@ -1,12 +1,11 @@
-/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   Routes,
   Route,
-  Navigate,
   useNavigate,
   useLocation,
+  // Navigate,
 } from 'react-router-dom';
 import { Layout } from 'antd';
 
@@ -30,6 +29,7 @@ function RouteMenu({
   loggedIn,
   handleGetUserInfo,
   handleLangNotLogged,
+  logOut,
 
   isLogo,
   handleShowLogo,
@@ -37,23 +37,26 @@ function RouteMenu({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const checkToken = () => {
-    const token = localStorage.getItem('token');
+  const checkToken = useCallback(
+    () => {
+      const token = localStorage.getItem('token');
 
-    if (token) {
-      handleGetUserInfo(token)
-        .then(() => {
-          navigate(location.pathname);
-        })
-        .catch((err) => {
-          navigate(path.signin);
-          console.log(`${errorMessage.tokenErr} ${err}.`);
-        });
-    } else {
-      navigate(path.signin);
-      console.log(errorMessage.tokenErr);
-    }
-  };
+      if (token) {
+        handleGetUserInfo(token)
+          .then(() => {
+            navigate(location.pathname);
+          })
+          .catch((err) => {
+            navigate(path.signin);
+            console.log(`${errorMessage.tokenErr} ${err}.`);
+          });
+      } else {
+        logOut();
+        navigate(path.signin);
+        console.log(errorMessage.tokenErr);
+      }
+    }, [handleGetUserInfo, location.pathname, navigate, logOut],
+  );
 
   useEffect(() => {
     checkToken();
@@ -63,8 +66,7 @@ function RouteMenu({
 
       handleLangNotLogged(lang);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
+  }, [checkToken, handleLangNotLogged, loggedIn]);
 
   return (
     <>
@@ -83,16 +85,21 @@ function RouteMenu({
                 path={path.signup}
                 element={<Register />}
               />
-
-              <Route
-                exact
-                path={path.signin}
-                element={loggedIn ? (
-                  <Navigate to={path.profile} />
-                ) : (
-                  <Login />
+              {loggedIn && location.pathname === path.signin
+                ? (
+                  <Route
+                    exact
+                    path={path.profile}
+                    element={<Profile />}
+                  />
+                )
+                : (
+                  <Route
+                    exact
+                    path={path.signin}
+                    element={<Login />}
+                  />
                 )}
-              />
 
               <Route
                 exact
@@ -100,7 +107,7 @@ function RouteMenu({
                 element={loggedIn ? (
                   <Profile />
                 ) : (
-                  <Navigate to={path.signin} />
+                  <Login />
                 )}
               />
 
@@ -110,7 +117,7 @@ function RouteMenu({
                 element={loggedIn ? (
                   <Users />
                 ) : (
-                  <Navigate to={path.signin} />
+                  <Login />
                 )}
               />
 
@@ -120,7 +127,7 @@ function RouteMenu({
                 element={loggedIn ? (
                   <Contacts />
                 ) : (
-                  <Navigate to={path.signin} />
+                  <Login />
                 )}
               />
 
@@ -130,16 +137,16 @@ function RouteMenu({
                 element={loggedIn ? (
                   <Docs />
                 ) : (
-                  <Navigate to={path.signin} />
+                  <Login />
                 )}
               />
 
               <Route
                 path="*"
                 element={loggedIn ? (
-                  <Navigate to={path.profile} />
+                  <Profile />
                 ) : (
-                  <Navigate to={path.signin} />
+                  <Login />
                 )}
               />
             </Routes>
@@ -156,11 +163,13 @@ export default inject(({ UserStore }) => {
     loggedIn,
     handleGetUserInfo,
     handleLangNotLogged,
+    logOut,
   } = UserStore;
 
   return {
     loggedIn,
     handleGetUserInfo,
     handleLangNotLogged,
+    logOut,
   };
 })(observer(RouteMenu));
