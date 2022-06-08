@@ -1,17 +1,28 @@
 @import "../../assets/styles/main.scss";
 
 .header {
-  padding: 25px 30px;
+  $pad: ($logoHeight / 2);
+  padding:$pad 26px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   &__logo {
-    width: 28px;
-    height: 28px;
+    display: flex;
+    width: $logoWidth;
+    height: $logoHeight;
     animation: 10s linear 0s normal none infinite running rot;
     -webkit-animation: 10s linear 0s normal none infinite running rot;
     transition: $transition;
+    &_true {
+      //marginLeft: '200px'
+    }
+    &_false {
+      //marginLeft: '80px'
+    }
+    &_filter-brightness {
+      filter: brightness(400%);
+    }
   }
   @keyframes rot {
     0% {
@@ -34,6 +45,7 @@
     &_signin {
       display: flex;
       justify-content: flex-end;
+      margin-left: auto;
     }
   }
 
@@ -43,21 +55,20 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+    align-items: center;
   }
 
   &__location-item {
-    margin-right: 15px;
-
+    margin-right: 30px;
+    &:last-child {
+      margin-right: 0;
+    }
     &_lang {
-      padding: 5px 15px;
+      padding: 2px;
       display: flex;
       align-items: center;
       background-color: #f3f3f3;
       border-radius: 25px;
-    }
-
-    &:last-child {
-      margin-right: 0;
     }
   }
 
@@ -80,7 +91,7 @@
     &_active {
       text-decoration: none;
       background-color: $white;
-      background-position: left;
+      //background-position: left;
       background-repeat: no-repeat;
       background-size: 25px;
       background-position: 10% 50%;
@@ -89,8 +100,6 @@
 
   &__btn-sign {
     @include mainText;
-
-    padding: 5px 15px;
     display: flex;
     align-items: center;
     color: $black;
@@ -119,7 +128,7 @@
     }
 
     &:last-child {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 }

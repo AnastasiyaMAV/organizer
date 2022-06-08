@@ -1,6 +1,18 @@
 @import "../../assets/styles/main.scss";
 
 .indent {
-    height: 80px;
-    background: $darkBlueMenu;
+    height: 40px;
+    //background: $darkBlueMenu;
+}
+
+.menu-sider-header {
+    $pad: ($logoHeight / 2);
+    padding:$pad $pad $pad 26px;
+}
+.menu-sider-header__logo {
+    display: flex;
+    width: $logoWidth;
+    height: $logoHeight;
+    transition: $transition;
+    filter: brightness(400%);
 }

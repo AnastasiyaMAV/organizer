@@ -11,6 +11,7 @@ import { inject, observer } from 'mobx-react';
 import { path } from '../../utils/constants/constants';
 import { localize } from '../../utils/constants/locales/localize';
 import './MenuSider.scss';
+import logo from '../../assets/images/logo.png';
 
 const { Sider } = Layout;
 
@@ -35,6 +36,17 @@ function MenuSider({
             await handleShowLogo(collapsed);
           }}
         >
+          <div className="menu-sider-header">
+            <NavLink
+              to={path.main}
+              className="menu-sider-header__logo"
+            >
+              <img
+                src={logo}
+                alt="logo"
+              />
+            </NavLink>
+          </div>
           <div className="indent" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             {
