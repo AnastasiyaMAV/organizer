@@ -37,26 +37,24 @@ function RouteMenu({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const checkToken = useCallback(
-    () => {
-      const token = localStorage.getItem('token');
+  const checkToken = useCallback(() => {
+    const token = localStorage.getItem('token');
 
-      if (token) {
-        handleGetUserInfo(token)
-          .then(() => {
-            navigate(location.pathname);
-          })
-          .catch((err) => {
-            navigate(path.signin);
-            console.log(`${errorMessage.tokenErr} ${err}.`);
-          });
-      } else {
-        logOut();
-        navigate(path.signin);
-        console.log(errorMessage.tokenErr);
-      }
-    }, [handleGetUserInfo, location.pathname, navigate, logOut],
-  );
+    if (token) {
+      handleGetUserInfo(token)
+        .then(() => {
+          navigate(location.pathname);
+        })
+        .catch((err) => {
+          navigate(path.signin);
+          console.log(`${errorMessage.tokenErr} ${err}.`);
+        });
+    } else if (location.pathname === path.signin) {
+      logOut();
+      navigate(path.signin);
+      console.log(errorMessage.tokenErr);
+    }
+  }, [handleGetUserInfo, location.pathname, navigate, logOut]);
 
   useEffect(() => {
     checkToken();
@@ -70,100 +68,55 @@ function RouteMenu({
 
   return (
     <>
-      <Header
-        isLogo={isLogo}
-      />
+      <Header isLogo={isLogo} />
       <main>
         <Layout className="app">
-          <MenuSider
-            handleShowLogo={handleShowLogo}
-          />
+          <MenuSider handleShowLogo={handleShowLogo} />
           <Layout>
             <Routes>
-              <Route
-                exact
-                path={path.signup}
-                element={<Register />}
-              />
-              {loggedIn && location.pathname === path.signin
-                ? (
-                  <Route
-                    exact
-                    path={path.profile}
-                    element={<Profile />}
-                  />
-                )
-                : (
-                  <Route
-                    exact
-                    path={path.signin}
-                    element={<Login />}
-                  />
-                )}
+              <Route exact path={path.signup} element={<Register />} />
+              {loggedIn && location.pathname === path.signin ? (
+                <Route exact path={path.profile} element={<Profile />} />
+              ) : (
+                <Route exact path={path.signin} element={<Login />} />
+              )}
 
               <Route
                 exact
                 path={path.profile}
-                element={loggedIn ? (
-                  <Profile />
-                ) : (
-                  <Login />
-                )}
+                element={loggedIn ? <Profile /> : <Login />}
               />
 
               <Route
                 exact
                 path={path.users}
-                element={loggedIn ? (
-                  <Users />
-                ) : (
-                  <Login />
-                )}
+                element={loggedIn ? <Users /> : <Login />}
               />
 
               <Route
                 exact
                 path={path.contacts}
-                element={loggedIn ? (
-                  <Contacts />
-                ) : (
-                  <Login />
-                )}
+                element={loggedIn ? <Contacts /> : <Login />}
               />
 
               <Route
                 exact
                 path={path.docs}
-                element={loggedIn ? (
-                  <Docs />
-                ) : (
-                  <Login />
-                )}
+                element={loggedIn ? <Docs /> : <Login />}
               />
 
-              <Route
-                path="*"
-                element={loggedIn ? (
-                  <Profile />
-                ) : (
-                  <Login />
-                )}
-              />
+              <Route path="*" element={loggedIn ? <Profile /> : <Login />} />
             </Routes>
           </Layout>
         </Layout>
       </main>
     </>
-
   );
 }
 
 export default inject(({ UserStore }) => {
   const {
-    loggedIn,
-    handleGetUserInfo,
-    handleLangNotLogged,
-    logOut,
+    loggedIn, handleGetUserInfo, handleLangNotLogged, logOut,
   } = UserStore;
 
   return {
