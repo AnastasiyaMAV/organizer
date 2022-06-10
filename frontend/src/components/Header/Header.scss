@@ -14,12 +14,6 @@
     animation: 10s linear 0s normal none infinite running rot;
     -webkit-animation: 10s linear 0s normal none infinite running rot;
     transition: $transition;
-    &_true {
-      //marginLeft: '200px'
-    }
-    &_false {
-      //marginLeft: '80px'
-    }
     &_filter-brightness {
       filter: brightness(400%);
     }

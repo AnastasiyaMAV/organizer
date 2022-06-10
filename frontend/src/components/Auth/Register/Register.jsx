@@ -9,7 +9,7 @@ import {
   Button, Form, Input, Select, Tooltip,
 } from 'antd';
 import Auth from '../Auth';
-import { path } from '../../../utils/constants/constants';
+import { path, langValue } from '../../../utils/constants/constants';
 import { localize } from '../../../utils/constants/locales/localize';
 import * as validMessages from '../../../utils/constants/validMessages';
 import { regularExpressions } from '../../../utils/constants/regularExpressions/regularExpressions';
@@ -34,6 +34,10 @@ const Register = ({ userLang, handleRegister }) => {
       .catch((err) => console.log(err));
   };
 
+  const handleJumpSignin = () => {
+    navigate(path.signin);
+  };
+
   return (
     <Auth title={`${locale.register.title}`}>
       <Form
@@ -43,7 +47,7 @@ const Register = ({ userLang, handleRegister }) => {
         scrollToFirstError
         className="form__register"
         initialValues={{
-          lang: 'RU',
+          lang: langValue.RU,
         }}
       >
         <Tooltip placement="rightBottom" title={regularMessagesError.login}>
@@ -114,26 +118,26 @@ const Register = ({ userLang, handleRegister }) => {
           ]}
         >
           <Select>
-            <Select.Option value="RU">
-              {locale.register.valueLangRU}
+            <Select.Option value={langValue.RU}>
+              {locale.langForm.RU}
             </Select.Option>
-            <Select.Option value="EN">
-              {locale.register.valueLangEN}
+            <Select.Option value={langValue.EN}>
+              {locale.langForm.EN}
             </Select.Option>
-            <Select.Option value="DE">
-              {locale.register.valueLangDE}
+            <Select.Option value={langValue.DE}>
+              {locale.langForm.DE}
             </Select.Option>
           </Select>
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Регистрация
+            {locale.register.buttonTextSignup}
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button type="default" onClick={() => navigate(path.signin)}>
-            Войти
+          <Button type="default" onClick={handleJumpSignin}>
+            {locale.login.buttonTextSignin}
           </Button>
         </Form.Item>
       </Form>

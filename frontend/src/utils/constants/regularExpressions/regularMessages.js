@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const regularMessages = {
   password: 'Неверный пароль. Пример: Password-123',
   login: 'Неверный логин. Пример: nickname_321',

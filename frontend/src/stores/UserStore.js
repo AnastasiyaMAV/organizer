@@ -11,9 +11,10 @@ const {
   login,
   getUserInfo,
   editUserInfo,
-  editUserAdmin,
+  editAdminInfo,
   editUserLang,
   getAllUsers,
+  editUserInfoAdmin,
 } = UsersApi;
 
 export default class UserStore {
@@ -22,6 +23,7 @@ export default class UserStore {
   userAdmin = false;
   userLang = 'RU';
   usersObj = null;
+  userOneObj = null;
 
   loggedIn = false;
   loading = false;
@@ -93,6 +95,7 @@ export default class UserStore {
       this.userEmail = '';
       this.userAdmin = false;
       this.loggedIn = false;
+      this.usersObj = null;
     });
   };
 
@@ -132,8 +135,8 @@ export default class UserStore {
       });
   };
 
-  handleEditUserAdmin = async (token, name, email, admin, lang) => {
-    await editUserAdmin(token, {
+  handleEditAdminInfo = async (token, name, email, admin, lang) => {
+    await editAdminInfo(token, {
       name, email, admin, lang,
     })
       .then((res) => {
@@ -185,6 +188,23 @@ export default class UserStore {
           console.log(err);
         });
     }
+  };
+
+  handleEditUserInfoAdmin = async (token, _id, name, email, lang) => {
+    await editUserInfoAdmin(token, {
+      _id, name, email, lang,
+    })
+      .then((res) => {
+        localStorage.setItem('lang', res.lang);
+
+        runInAction(() => {
+          this.userOneObj = res;
+          console.log(this.userOneObj);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 }
 

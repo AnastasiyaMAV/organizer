@@ -1,11 +1,9 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useCallback } from 'react';
 import {
   Routes,
   Route,
   useNavigate,
   useLocation,
-  // Navigate,
 } from 'react-router-dom';
 import { Layout } from 'antd';
 

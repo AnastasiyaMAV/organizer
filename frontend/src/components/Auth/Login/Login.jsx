@@ -1,15 +1,9 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import './Login.scss';
-import {
-  Button,
-  Form,
-  Input,
-} from 'antd';
+import { Button, Form, Input } from 'antd';
 import Auth from '../Auth';
 import { localize } from '../../../utils/constants/locales/localize';
 import * as validMessages from '../../../utils/constants/validMessages';
@@ -19,10 +13,7 @@ import { path } from '../../../utils/constants/constants';
 
 const { validUserMessage } = validMessages;
 
-const Login = ({
-  userLang,
-  handleLogin,
-}) => {
+const Login = ({ userLang, handleLogin, loggedIn }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const locale = localize(userLang);
@@ -33,14 +24,12 @@ const Login = ({
       .catch((err) => console.log(err));
   };
 
-  const signUp = () => {
+  const handleJumpSignup = () => {
     navigate(path.signup);
   };
 
   return (
-    <Auth
-      title={`${locale.login.title}`}
-    >
+    <Auth title={`${locale.login.title}`}>
       <Form
         form={form}
         name="login"
@@ -66,9 +55,7 @@ const Login = ({
             },
           ]}
         >
-          <Input
-            placeholder={`${locale.register.fieldNameEmail}`}
-          />
+          <Input placeholder={`${locale.register.fieldNameEmail}`} />
         </Form.Item>
 
         <Form.Item
@@ -86,20 +73,18 @@ const Login = ({
           ]}
           hasFeedback
         >
-          <Input.Password
-            placeholder={`${locale.register.fieldNamePass}`}
-          />
+          <Input.Password placeholder={`${locale.register.fieldNamePass}`} />
         </Form.Item>
 
         <div className="register_btnGroup">
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Войти
+              {locale.login.buttonTextSignin}
             </Button>
           </Form.Item>
           <Form.Item>
-            <Button type="default" onClick={signUp}>
-              Зарегистрироваться
+            <Button type="default" onClick={handleJumpSignup}>
+              {locale.register.buttonTextSignup}
             </Button>
           </Form.Item>
         </div>
@@ -109,13 +94,11 @@ const Login = ({
 };
 
 export default inject(({ UserStore }) => {
-  const {
-    userLang,
-    handleLogin,
-  } = UserStore;
+  const { userLang, handleLogin, loggedIn } = UserStore;
 
   return {
     userLang,
     handleLogin,
+    loggedIn,
   };
 })(observer(Login));

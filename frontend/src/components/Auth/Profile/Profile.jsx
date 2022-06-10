@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
@@ -9,7 +6,7 @@ import {
   Button, Form, Input, Select, Checkbox, Tooltip,
 } from 'antd';
 import Auth from '../Auth';
-import { path } from '../../../utils/constants/constants';
+import { path, langValue } from '../../../utils/constants/constants';
 import { localize } from '../../../utils/constants/locales/localize';
 import * as validMessages from '../../../utils/constants/validMessages';
 import { regularExpressions } from '../../../utils/constants/regularExpressions/regularExpressions';
@@ -23,7 +20,7 @@ const Profile = ({
   userAdmin,
   userLang,
   handleEditUserInfo,
-  handleEditUserAdmin,
+  handleEditAdminInfo,
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -33,7 +30,7 @@ const Profile = ({
     const token = localStorage.getItem('token');
 
     if (userAdmin) {
-      await handleEditUserAdmin(
+      await handleEditAdminInfo(
         token,
         values.name,
         values.email,
@@ -47,6 +44,10 @@ const Profile = ({
         .then(() => navigate(path.profile))
         .catch((err) => console.log(err));
     }
+  };
+
+  const handleJumpContacts = () => {
+    navigate(path.contacts);
   };
 
   return (
@@ -118,14 +119,14 @@ const Profile = ({
           ]}
         >
           <Select>
-            <Select.Option value="RU">
-              {locale.profile.valueLangRU}
+            <Select.Option value={langValue.RU}>
+              {locale.langForm.RU}
             </Select.Option>
-            <Select.Option value="EN">
-              {locale.profile.valueLangEN}
+            <Select.Option value={langValue.EN}>
+              {locale.langForm.EN}
             </Select.Option>
-            <Select.Option value="DE">
-              {locale.profile.valueLangDE}
+            <Select.Option value={langValue.DE}>
+              {locale.langForm.DE}
             </Select.Option>
           </Select>
         </Form.Item>
@@ -133,16 +134,16 @@ const Profile = ({
         <Form.Item>
           <div className="form__profile-btnGroup">
             <Button type="primary" htmlType="submit">
-              Сохранить изменения
+              {locale.profile.buttonTextSave}
             </Button>
             <Button type="default">
-              Удалить профиль
+              {locale.profile.buttonTextDel}
             </Button>
             <Button type="default">
-              Сменить пароль
+              {locale.profile.buttonTextChangePassword}
             </Button>
-            <Button type="default" onClick={() => navigate(path.contacts)}>
-              На главную
+            <Button type="default" onClick={handleJumpContacts}>
+              {locale.profile.buttonLoadTextToMain}
             </Button>
           </div>
         </Form.Item>
@@ -158,7 +159,7 @@ export default inject(({ UserStore }) => {
     userAdmin,
     userLang,
     handleEditUserInfo,
-    handleEditUserAdmin,
+    handleEditAdminInfo,
   } = UserStore;
 
   return {
@@ -167,6 +168,6 @@ export default inject(({ UserStore }) => {
     userAdmin,
     userLang,
     handleEditUserInfo,
-    handleEditUserAdmin,
+    handleEditAdminInfo,
   };
 })(observer(Profile));

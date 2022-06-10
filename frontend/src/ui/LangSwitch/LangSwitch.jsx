@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Select } from 'antd';
 import { localize } from '../../utils/constants/locales/localize';
+import { langValue } from '../../utils/constants/constants';
 
 const { Option } = Select;
 
@@ -37,9 +38,15 @@ function LangSwitch({
       size="small"
       bordered={false}
     >
-      <Option value="RU" disabled={userLang === 'RU'}>RU</Option>
-      <Option value="EN" disabled={userLang === 'EN'}>EN</Option>
-      <Option value="DE" disabled={userLang === 'DE'}>DE</Option>
+      <Option value={langValue.RU} disabled={userLang === langValue.RU}>
+        {langValue.RU}
+      </Option>
+      <Option value={langValue.EN} disabled={userLang === langValue.EN}>
+        {langValue.EN}
+      </Option>
+      <Option value={langValue.DE} disabled={userLang === langValue.DE}>
+        {langValue.DE}
+      </Option>
     </Select>
   );
 }

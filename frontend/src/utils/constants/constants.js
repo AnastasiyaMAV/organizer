@@ -24,3 +24,9 @@ export const path = {
   docs: '/docs',
   profile: '/profile',
 };
+
+export const langValue = {
+  RU: 'RU',
+  EN: 'EN',
+  DE: 'DE',
+};

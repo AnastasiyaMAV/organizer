@@ -3,7 +3,7 @@
 .content__users {
     height: calc(100vh - 61px);
     min-height: calc(100vh - 100px);
-    width: 1200px;
+    width: calc(100vw - 320px);
     margin-top: 20px;
     margin-left: 210px;
 }

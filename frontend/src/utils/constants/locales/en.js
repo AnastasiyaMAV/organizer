@@ -13,41 +13,56 @@ export const menu = {
 
 export const login = {
   title: 'Sign in',
-  buttonText: 'Sign in',
-  buttonLoadText: 'Sign in...',
+  buttonTextSignin: 'Sign in',
   fieldNameEmail: 'E-mail',
   fieldNamePass: 'Password',
 };
 
 export const register = {
   title: 'Registration',
-  buttonText: 'Register',
-  buttonLoadText: 'Register...',
+  buttonTextSignup: 'Register',
   fieldNameLogin: 'Login',
   fieldNameEmail: 'E-mail',
   fieldNamePass: 'Password',
   fieldNameAdmin: 'Admin rights',
   fieldNameLang: 'Lang',
-  valueLangRU: 'Russian',
-  valueLangEN: 'English',
-  valueLangDE: 'Deutsch',
 };
 
 export const profile = {
   title: 'Hello,',
-  buttonText: 'Edit',
-  buttonLoadText: 'Editing...',
+  buttonTextSave: 'Save Changes',
+  buttonTextDel: 'Delete profile',
+  buttonTextChangePassword: 'Change password',
+  buttonLoadTextToMain: 'To Main',
   fieldNameLogin: 'Login',
   fieldNameEmail: 'E-mail',
   fieldNameAdmin: 'Admin rights',
   fieldNameLang: 'Lang',
-  valueLangRU: 'Russian',
-  valueLangEN: 'English',
-  valueLangDE: 'Deutsch',
 };
 
 export const form = {
-  signup: 'Sign up',
-  signin: 'Sign in',
-  main: 'To Home',
+  signup: 'Registrieren',
+  signin: 'Betreten',
+  main: 'Zur Hauptsache',
+};
+
+export const langForm = {
+  RU: 'Russian',
+  EN: 'English',
+  DE: 'Deutsch',
+};
+
+export const users = {
+  titleLogin: 'Login',
+  titleEmail: 'E-mail',
+  titleLang: 'Lang',
+  titleAdmin: 'Admin',
+  buttonTextAddUser: 'Add user',
+  buttonTextDelUser: 'Delete',
+  buttonTextResetPass: 'Reset the password',
+};
+
+export const boolenVariable = {
+  trueVar: 'Yes',
+  falseVar: 'Not',
 };
