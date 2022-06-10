@@ -1,4 +1,4 @@
-/* eslint-disable no-nested-ternary */
+// /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -47,12 +47,12 @@ const EditableCell = ({
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
+  const fieldRef = useRef(null);
   const form = useContext(EditableContext);
 
   useEffect(() => {
     if (editing) {
-      inputRef.current.focus();
+      fieldRef.current.focus();
     }
   }, [editing]);
 
@@ -61,6 +61,42 @@ const EditableCell = ({
     form.setFieldsValue({
       [dataIndex]: record[dataIndex],
     });
+  };
+
+  const searchDataIndex = (data) => {
+    let rules = [];
+    if (data === 'name') {
+      rules = [
+        {
+          required: true,
+          message: validUserMessage.requiredErr,
+          whitespace: true,
+        },
+        {
+          pattern: regularExpressions.login,
+          message: regularMessages.login,
+        },
+      ];
+    } else if (data === 'email') {
+      rules = [
+        {
+          type: 'email',
+          message: validUserMessage.emailErr,
+        },
+        {
+          required: true,
+          message: validUserMessage.requiredErr,
+        },
+      ];
+    } else if (data === 'lang') {
+      rules = [
+        {
+          required: true,
+          message: validUserMessage.requiredErr,
+        },
+      ];
+    }
+    return rules;
   };
 
   const save = async () => {
@@ -84,34 +120,23 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        rules={
-          dataIndex === 'name'
-            ? [
-              {
-                required: true,
-                message: validUserMessage.requiredErr,
-                whitespace: true,
-              },
-              {
-                pattern: regularExpressions.login,
-                message: regularMessages.login,
-              },
-            ]
-            : dataIndex === 'email'
-              ? [
-                {
-                  type: 'email',
-                  message: validUserMessage.emailErr,
-                },
-                {
-                  required: true,
-                  message: validUserMessage.requiredErr,
-                },
-              ]
-              : null
-        }
+        rules={searchDataIndex(dataIndex)}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        {dataIndex === 'lang' ? (
+          <Select
+            defaultValue={record.lang}
+            style={{ width: 120 }}
+            ref={fieldRef}
+            onChange={save}
+            onBlur={save}
+          >
+            <Option value={langValue.RU}>{langValue.RU}</Option>
+            <Option value={langValue.EN}>{langValue.EN}</Option>
+            <Option value={langValue.DE}>{langValue.DE}</Option>
+          </Select>
+        ) : (
+          <Input ref={fieldRef} onPressEnter={save} onBlur={save} />
+        )}
       </Form.Item>
     ) : (
       <div
@@ -179,6 +204,7 @@ const Users = ({
           <Option value={langValue.DE}>{langValue.DE}</Option>
         </Select>
       ) : null),
+      editable: true,
     },
     {
       title: locale.users.titleAdmin,
@@ -190,6 +216,7 @@ const Users = ({
           <Option value>{locale.boolenVariable.trueVar}</Option>
         </Select>
       ) : null),
+      editable: true,
     },
     {
       title: '',
@@ -237,13 +264,7 @@ const Users = ({
     console.log(newData[index]);
 
     const token = localStorage.getItem('token');
-    handleEditUserInfoAdmin(
-      token,
-      row._id,
-      row.name,
-      row.email,
-      row.lang,
-    );
+    handleEditUserInfoAdmin(token, row._id, row.name, row.email, row.lang);
 
     const item = newData[index];
     console.log(newData[index]);
