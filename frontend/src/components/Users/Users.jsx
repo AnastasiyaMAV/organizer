@@ -4,7 +4,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import './Users.scss';
 import React, {
-  useContext, useState, useEffect, useRef,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
 } from 'react';
 import { inject, observer } from 'mobx-react';
 import {
@@ -44,11 +49,13 @@ const EditableCell = ({
   dataIndex,
   record,
   handleSave,
+  userLang,
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
   const fieldRef = useRef(null);
   const form = useContext(EditableContext);
+  const locale = localize(userLang);
 
   useEffect(() => {
     if (editing) {
@@ -56,14 +63,14 @@ const EditableCell = ({
     }
   }, [editing]);
 
-  const toggleEdit = () => {
+  const toggleEdit = useCallback(() => {
     setEditing(!editing);
     form.setFieldsValue({
       [dataIndex]: record[dataIndex],
     });
-  };
+  }, [dataIndex, editing, form, record]);
 
-  const searchDataIndex = (data) => {
+  const searchInputOnDataIndex = (data) => {
     let rules = [];
     if (data === 'name') {
       rules = [
@@ -88,43 +95,27 @@ const EditableCell = ({
           message: validUserMessage.requiredErr,
         },
       ];
-    } else if (data === 'lang') {
-      rules = [
-        {
-          required: true,
-          message: validUserMessage.requiredErr,
-        },
-      ];
     }
     return rules;
   };
 
-  const save = async () => {
+  const save = useCallback(async () => {
     try {
       const values = await form.validateFields();
       toggleEdit();
       handleSave({ ...record, ...values });
-      console.log(record);
-      console.log(values);
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
-  };
+  }, [form, handleSave, record, toggleEdit]);
 
   let childNode = children;
 
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={searchDataIndex(dataIndex)}
-      >
-        {dataIndex === 'lang' ? (
+  const searchSelectOnDataIndex = useMemo(() => {
+    switch (dataIndex) {
+      case 'lang':
+        return (
           <Select
-            defaultValue={record.lang}
             style={{ width: 120 }}
             ref={fieldRef}
             onChange={save}
@@ -134,9 +125,39 @@ const EditableCell = ({
             <Option value={langValue.EN}>{langValue.EN}</Option>
             <Option value={langValue.DE}>{langValue.DE}</Option>
           </Select>
-        ) : (
-          <Input ref={fieldRef} onPressEnter={save} onBlur={save} />
-        )}
+        );
+      case 'admin':
+        return (
+          <Select
+            style={{ width: 120 }}
+            ref={fieldRef}
+            onChange={save}
+            onBlur={save}
+          >
+            <Option value={false}>{locale.boolenVariable.falseVar}</Option>
+            <Option value>{locale.boolenVariable.trueVar}</Option>
+          </Select>
+        );
+      default:
+        return <Input ref={fieldRef} onPressEnter={save} onBlur={save} />;
+    }
+  }, [
+    dataIndex,
+    locale.boolenVariable.falseVar,
+    locale.boolenVariable.trueVar,
+    save,
+  ]);
+
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+        rules={searchInputOnDataIndex(dataIndex)}
+      >
+        {searchSelectOnDataIndex}
       </Form.Item>
     ) : (
       <div
@@ -196,26 +217,20 @@ const Users = ({
     {
       title: locale.users.titleLang,
       dataIndex: 'lang',
-      width: '10%',
-      render: (_, record) => (dataSource.length >= 1 ? (
-        <Select defaultValue={record.lang} style={{ width: 120 }}>
-          <Option value={langValue.RU}>{langValue.RU}</Option>
-          <Option value={langValue.EN}>{langValue.EN}</Option>
-          <Option value={langValue.DE}>{langValue.DE}</Option>
-        </Select>
-      ) : null),
+      width: '15%',
       editable: true,
     },
     {
       title: locale.users.titleAdmin,
       dataIndex: 'admin',
-      width: '10%',
-      render: (_, record) => (dataSource.length >= 1 ? (
-        <Select defaultValue={record.admin} style={{ width: 120 }}>
-          <Option value={false}>{locale.boolenVariable.falseVar}</Option>
-          <Option value>{locale.boolenVariable.trueVar}</Option>
-        </Select>
-      ) : null),
+      width: '15%',
+      render: (_, record) => (
+        <span>
+          {record.admin
+            ? locale.boolenVariable.trueVar
+            : locale.boolenVariable.falseVar}
+        </span>
+      ),
       editable: true,
     },
     {
@@ -278,6 +293,7 @@ const Users = ({
       cell: EditableCell,
     },
   };
+
   const columns = defaultColumns.map((col) => {
     if (!col.editable) {
       return col;
@@ -294,6 +310,7 @@ const Users = ({
       }),
     };
   });
+
   return (
     <div className="content__users">
       <Button
