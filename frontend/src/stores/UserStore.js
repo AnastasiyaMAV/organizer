@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
 /* eslint-disable lines-between-class-members */
 import { makeAutoObservable, runInAction } from 'mobx';
 
 import * as UsersApi from '../utils/Api/UsersApi';
 
-import { errorMessage } from '../utils/constants/messages';
+import { errorMessage, successMessage } from '../utils/constants/messages';
 
 const {
   register,
@@ -14,10 +13,13 @@ const {
   editAdminInfo,
   editUserLang,
   getAllUsers,
-  editUserInfoAdmin,
+  editUserInfoUnderAdmin,
+  delUserUnderAdmin,
+  updatePassProfile,
 } = UsersApi;
 
 export default class UserStore {
+  userId = '';
   userName = '';
   userEmail = '';
   userAdmin = false;
@@ -28,6 +30,7 @@ export default class UserStore {
   loggedIn = false;
   loading = false;
   errload = '';
+  successLoad = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -38,7 +41,11 @@ export default class UserStore {
     this.errload = '';
 
     await register({
-      name, email, password, lang, admin,
+      name,
+      email,
+      password,
+      lang,
+      admin,
     })
       .then((res) => {
         runInAction(() => {
@@ -68,7 +75,6 @@ export default class UserStore {
     await login({ email, password })
       .then((res) => {
         localStorage.setItem('token', res.token);
-
         runInAction(() => {
           this.handleGetUserInfo(res.token);
         });
@@ -118,26 +124,15 @@ export default class UserStore {
       });
   };
 
-  handleEditUserInfo = async (token, name, email, lang) => {
-    await editUserInfo(token, { name, email, lang })
-      .then((res) => {
-        localStorage.setItem('lang', res.lang);
+  handleEditUserInfo = async (token, _id, name, email, lang) => {
+    this.loading = true;
+    this.errload = '';
 
-        runInAction(() => {
-          this.userName = res.name;
-          this.userEmail = res.email;
-          this.userAdmin = res.admin;
-          this.userLang = res.lang;
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  handleEditAdminInfo = async (token, name, email, admin, lang) => {
-    await editAdminInfo(token, {
-      name, email, admin, lang,
+    await editUserInfo(token, {
+      _id,
+      name,
+      email,
+      lang,
     })
       .then((res) => {
         localStorage.setItem('lang', res.lang);
@@ -151,6 +146,51 @@ export default class UserStore {
       })
       .catch((err) => {
         console.log(err);
+
+        runInAction(() => {
+          this.errload = errorMessage.serverErr;
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
+      });
+  };
+
+  handleEditAdminInfo = async (token, _id, name, email, admin, lang) => {
+    this.loading = true;
+    this.errload = '';
+
+    await editAdminInfo(token, {
+      _id,
+      name,
+      email,
+      admin,
+      lang,
+    })
+      .then((res) => {
+        localStorage.setItem('lang', res.lang);
+
+        runInAction(() => {
+          this.userName = res.name;
+          this.userEmail = res.email;
+          this.userAdmin = res.admin;
+          this.userLang = res.lang;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+
+        runInAction(() => {
+          this.errload = errorMessage.serverErr;
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+          this.errload = '';
+        });
       });
   };
 
@@ -174,6 +214,48 @@ export default class UserStore {
     });
   };
 
+  handleDellProfile = async (
+    token,
+    _id,
+  ) => {
+    this.errload = '';
+    await delUserUnderAdmin(token, {
+      _id,
+    })
+      .then(() => {
+        console.log(successMessage.delUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        runInAction(() => {
+          this.errload = err.message;
+        });
+      });
+  };
+
+  handleUpdatePassProfile = async (
+    token,
+    _id,
+    password,
+    newPassword,
+  ) => {
+    this.errload = '';
+    await updatePassProfile(token, {
+      _id,
+      password,
+      newPassword,
+    })
+      .then(() => {
+        console.log(successMessage.updatePass);
+      })
+      .catch((err) => {
+        console.log(err);
+        runInAction(() => {
+          this.errload = errorMessage.serverErr;
+        });
+      });
+  };
+
   handleAllUsers = async (token) => {
     if (!this.usersObj) {
       await getAllUsers(token)
@@ -190,30 +272,105 @@ export default class UserStore {
     }
   };
 
-  handleEditUserInfoAdmin = async (token, _id, name, email, lang) => {
-    await editUserInfoAdmin(token, {
-      _id, name, email, lang,
+  handleEditUserInfoUnderAdmin = async (
+    token,
+    _id,
+    name,
+    email,
+    admin,
+    lang,
+  ) => {
+    this.loading = true;
+    this.errload = '';
+    this.successLoad = '';
+
+    await editUserInfoUnderAdmin(token, {
+      _id,
+      name,
+      email,
+      admin,
+      lang,
     })
       .then((res) => {
         localStorage.setItem('lang', res.lang);
 
         runInAction(() => {
           this.userOneObj = res;
-          console.log(this.userOneObj);
+          this.usersObj = null;
+          this.successLoad = successMessage.editUser;
         });
       })
       .catch((err) => {
         console.log(err);
+        runInAction(() => {
+          this.errload = errorMessage.serverErr;
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
       });
   };
-}
 
-/*
-{
-    "admin": true,
-    "lang": "RU",
-    "_id": "623a090ab71aa1462072181f",
-    "email": "mkdir-dev@email.com",
-    "name": "mkdirdev"
+  handleDellUserUnderAdmin = async (
+    token,
+    _id,
+  ) => {
+    this.errload = '';
+    await delUserUnderAdmin(token, {
+      _id,
+    })
+      .then(() => {
+        console.log(successMessage.delUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        runInAction(() => {
+          this.errload = err.message;
+        });
+      });
+  };
+
+  handleAddUserUnderAdmin = async (name, email, password, lang, admin) => {
+    this.loading = true;
+    this.errload = '';
+    this.successLoad = '';
+
+    await register({
+      name,
+      email,
+      password,
+      lang,
+      admin,
+    })
+      .then(() => {
+        console.log(successMessage.addUser);
+        this.usersObj = null;
+        this.successLoad = successMessage.addUser;
+      })
+      .catch((err) => {
+        console.log(err);
+        runInAction(() => {
+          this.errload = errorMessage.serverErr;
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
+      });
+  };
+
+  setErrload = () => {
+    runInAction(() => {
+      this.errload = '';
+    });
+  };
+
+  setSuccessLoad = () => {
+    runInAction(() => {
+      this.successLoad = '';
+    });
+  };
 }
-*/

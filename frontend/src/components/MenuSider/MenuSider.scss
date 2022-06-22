@@ -12,6 +12,6 @@
     display: flex;
     width: $logoWidth;
     height: $logoHeight;
-    transition: $transition;
     filter: brightness(400%);
+    @include animation-log;
 }

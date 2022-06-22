@@ -1,188 +1,25 @@
-// /* eslint-disable no-nested-ternary */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-props-no-spreading */
 import './Users.scss';
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import {
-  Table,
-  Input,
-  Button,
-  Popconfirm,
-  Form,
-  Typography,
-  Select,
+  Table, Button, Popconfirm, Typography,
 } from 'antd';
-import * as validMessages from '../../utils/constants/validMessages';
-import { regularExpressions } from '../../utils/constants/regularExpressions/regularExpressions';
-import { regularMessages } from '../../utils/constants/regularExpressions/regularMessages';
-import { langValue } from '../../utils/constants/constants';
 import { localize } from '../../utils/constants/locales/localize';
 
-const { validUserMessage } = validMessages;
-
-const EditableContext = React.createContext(null);
-const { Option } = Select;
-
-const EditableRow = ({ ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
-const EditableCell = ({
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  userLang,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const fieldRef = useRef(null);
-  const form = useContext(EditableContext);
-  const locale = localize(userLang);
-
-  useEffect(() => {
-    if (editing) {
-      fieldRef.current.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = useCallback(() => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
-  }, [dataIndex, editing, form, record]);
-
-  const searchInputOnDataIndex = (data) => {
-    let rules = [];
-    if (data === 'name') {
-      rules = [
-        {
-          required: true,
-          message: validUserMessage.requiredErr,
-          whitespace: true,
-        },
-        {
-          pattern: regularExpressions.login,
-          message: regularMessages.login,
-        },
-      ];
-    } else if (data === 'email') {
-      rules = [
-        {
-          type: 'email',
-          message: validUserMessage.emailErr,
-        },
-        {
-          required: true,
-          message: validUserMessage.requiredErr,
-        },
-      ];
-    }
-    return rules;
-  };
-
-  const save = useCallback(async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
-  }, [form, handleSave, record, toggleEdit]);
-
-  let childNode = children;
-
-  const searchSelectOnDataIndex = useMemo(() => {
-    switch (dataIndex) {
-      case 'lang':
-        return (
-          <Select
-            style={{ width: 120 }}
-            ref={fieldRef}
-            onChange={save}
-            onBlur={save}
-          >
-            <Option value={langValue.RU}>{langValue.RU}</Option>
-            <Option value={langValue.EN}>{langValue.EN}</Option>
-            <Option value={langValue.DE}>{langValue.DE}</Option>
-          </Select>
-        );
-      case 'admin':
-        return (
-          <Select
-            style={{ width: 120 }}
-            ref={fieldRef}
-            onChange={save}
-            onBlur={save}
-          >
-            <Option value={false}>{locale.boolenVariable.falseVar}</Option>
-            <Option value>{locale.boolenVariable.trueVar}</Option>
-          </Select>
-        );
-      default:
-        return <Input ref={fieldRef} onPressEnter={save} onBlur={save} />;
-    }
-  }, [
-    dataIndex,
-    locale.boolenVariable.falseVar,
-    locale.boolenVariable.trueVar,
-    save,
-  ]);
-
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={searchInputOnDataIndex(dataIndex)}
-      >
-        {searchSelectOnDataIndex}
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
+import ModalForm from '../../ui/Modal/ModalForm/ModalForm';
+import UserAdd from './UserAdd/UserAdd';
+import UserEdit from './UserEdit/UserEdit';
 
 const Users = ({
   handleAllUsers,
   usersObj,
   userLang,
-  handleEditUserInfoAdmin,
+  handleDellUserUnderAdmin,
 }) => {
   const [dataSource, setDataSource] = useState();
-  const [count, setCount] = useState(2);
+  const [visibleModalAddUser, setVisibleModalAddUser] = useState(false);
+  const [visibleModalEditUser, setVisibleModalEditUser] = useState(false);
+  const [oneUser, setOneUser] = useState(null);
   const locale = localize(userLang);
 
   useEffect(() => {
@@ -196,9 +33,25 @@ const Users = ({
     }
   }, [usersObj]);
 
-  const handleDelete = (_id) => {
-    const newData = dataSource.filter((item) => item._id !== _id);
-    setDataSource(newData);
+  const handleModalAddUserCancel = () => {
+    setVisibleModalAddUser(false);
+  };
+
+  const handleModalEditUserCancel = () => {
+    setVisibleModalEditUser(false);
+    setOneUser(null);
+  };
+
+  const handleDelete = async (_id) => {
+    const token = localStorage.getItem('token');
+    await handleDellUserUnderAdmin(token, _id)
+      .then(() => {
+        const newData = dataSource.filter((item) => item._id !== _id);
+        setDataSource(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const defaultColumns = [
@@ -206,19 +59,16 @@ const Users = ({
       title: locale.users.titleLogin,
       dataIndex: 'name',
       width: '20%',
-      editable: true,
     },
     {
       title: locale.users.titleEmail,
       dataIndex: 'email',
       width: '30%',
-      editable: true,
     },
     {
       title: locale.users.titleLang,
       dataIndex: 'lang',
       width: '15%',
-      editable: true,
     },
     {
       title: locale.users.titleAdmin,
@@ -231,7 +81,6 @@ const Users = ({
             : locale.boolenVariable.falseVar}
         </span>
       ),
-      editable: true,
     },
     {
       title: '',
@@ -239,20 +88,28 @@ const Users = ({
       width: '30%',
       render: (_, record) => (dataSource.length >= 1 ? (
         <div className="userTable__operation">
-          <Popconfirm
-            title="Вы действительно хотите удалить пользователя?"
-            onConfirm={() => handleDelete(record._id)}
+          <Typography.Link
+            onClick={() => {
+              setVisibleModalEditUser(true);
+              setOneUser(record);
+            }}
           >
-            <Typography.Link>
-              {locale.users.buttonTextDelUser}
-            </Typography.Link>
-          </Popconfirm>
+            {locale.users.buttonTextEditUser}
+          </Typography.Link>
           <Popconfirm
-            title="Вы действительно хотите сбросить пароль пользователю?"
+            title={locale.users.popconfirmTitleResetPassUser}
             onConfirm={() => handleDelete(record._id)}
           >
             <Typography.Link>
               {locale.users.buttonTextResetPass}
+            </Typography.Link>
+          </Popconfirm>
+          <Popconfirm
+            title={locale.users.popconfirmTitleDeleteUser}
+            onConfirm={() => handleDelete(record._id)}
+          >
+            <Typography.Link>
+              {locale.users.buttonTextDelUser}
             </Typography.Link>
           </Popconfirm>
         </div>
@@ -260,82 +117,67 @@ const Users = ({
     },
   ];
 
-  const handleAdd = () => {
-    const newData = {
-      _id: count,
-      name: 'Введите имя',
-      email: 'Введите электронный адрес',
-      lang: '',
-      admin: '',
-    };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
-  };
-
-  const handleSave = (row) => {
-    console.log(row);
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row._id === item._id);
-    console.log(newData[index]);
-
-    const token = localStorage.getItem('token');
-    handleEditUserInfoAdmin(token, row._id, row.name, row.email, row.lang);
-
-    const item = newData[index];
-    console.log(newData[index]);
-    newData.splice(index, 1, { ...item, ...row });
-    setDataSource(newData);
-  };
-
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-
-  const columns = defaultColumns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
-  });
+  const columns = defaultColumns.map((col) => ({
+    ...col,
+    onCell: (record) => ({
+      record,
+      dataindex: col.dataIndex,
+      title: col.title,
+    }),
+  }));
 
   return (
-    <div className="content__users">
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        {locale.users.buttonTextAddUser}
-      </Button>
-      <Table
-        components={components}
-        rowClassName={() => 'editable-row'}
-        bordered
-        dataSource={dataSource}
-        columns={columns}
-      />
-    </div>
+    <>
+      <div className="content__users">
+        <Button
+          onClick={() => setVisibleModalAddUser(true)}
+          type="primary"
+          style={{
+            marginBottom: 16,
+          }}
+        >
+          {locale.users.buttonTextAddUser}
+        </Button>
+        {visibleModalAddUser && (
+          <ModalForm
+            visible={visibleModalAddUser}
+            title={locale.users.buttonTextAddUser}
+            handleModalCancel={handleModalAddUserCancel}
+            footer={null}
+          >
+            <UserAdd />
+          </ModalForm>
+        )}
+
+        {oneUser && (
+          <ModalForm
+            visible={visibleModalEditUser}
+            title={locale.users.buttonTextAddUser}
+            handleModalCancel={handleModalEditUserCancel}
+            footer={null}
+          >
+            <UserEdit oneUser={oneUser} />
+          </ModalForm>
+        )}
+
+        <Table
+          bordered
+          dataSource={dataSource}
+          columns={columns}
+          rowKey={(record) => record._id}
+        />
+      </div>
+    </>
   );
 };
 
 export default inject(({ UserStore }) => {
   const {
-    usersObj, handleAllUsers, userLang, handleEditUserInfoAdmin,
+    usersObj,
+    handleAllUsers,
+    userLang,
+    handleEditUserInfoAdmin,
+    handleDellUserUnderAdmin,
   } = UserStore;
 
   return {
@@ -343,5 +185,6 @@ export default inject(({ UserStore }) => {
     handleAllUsers,
     userLang,
     handleEditUserInfoAdmin,
+    handleDellUserUnderAdmin,
   };
 })(observer(Users));

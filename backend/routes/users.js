@@ -16,12 +16,12 @@ const {
   updateUserAdminValidation,
   updateUserLangValidation,
   updateUserPassValidation,
-} = require('../middlewares/validation');
+} = require('../middlewares/validation/userValidation');
 
 router.get('/me', getUser);
 router.get('/', getAllUsers);
 router.patch('/:userId', userIdValidation, updateUserValidation, updateUser);
-router.patch('/me/admin', updateUserAdminValidation, updateUserAdmin);
+router.patch('/admin/:userId', updateUserAdminValidation, updateUserAdmin);
 router.patch('/me/lang', updateUserLangValidation, updateUserLang);
 router.patch('/pass/:userId', userIdValidation, updateUserPassValidation, updatePass);
 router.delete('/:userId', userIdValidation, deleteUser);

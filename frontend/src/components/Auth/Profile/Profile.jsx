@@ -1,30 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import './Profile.scss';
 import {
-  Button, Form, Input, Select, Checkbox, Tooltip,
+  Button,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Tooltip,
+  Popconfirm,
 } from 'antd';
+import './Profile.scss';
 import Auth from '../Auth';
 import { path, langValue } from '../../../utils/constants/constants';
 import { localize } from '../../../utils/constants/locales/localize';
-import * as validMessages from '../../../utils/constants/validMessages';
-import { regularExpressions } from '../../../utils/constants/regularExpressions/regularExpressions';
-import { regularMessages, regularMessagesError } from '../../../utils/constants/regularExpressions/regularMessages';
-
-const { validUserMessage } = validMessages;
+import { regularExpressions } from '../../../utils/constants/regularExpressions';
+import ModalForm from '../../../ui/Modal/ModalForm/ModalForm';
+import FormUpdatePass from '../../../ui/Form/FormUpdatePass/FormUpdatePass';
 
 const Profile = ({
+  userId,
   userName,
   userEmail,
   userAdmin,
   userLang,
   handleEditUserInfo,
   handleEditAdminInfo,
+  loading,
+  handleDellProfile,
+  logOut,
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const locale = localize(userLang);
+  const [visibleModalUpdatePass, setVisibleModalUpdatePass] = useState(false);
 
   const onFinish = async (values) => {
     const token = localStorage.getItem('token');
@@ -32,6 +41,7 @@ const Profile = ({
     if (userAdmin) {
       await handleEditAdminInfo(
         token,
+        userId,
         values.name,
         values.email,
         values.admin,
@@ -40,7 +50,13 @@ const Profile = ({
         .then(() => navigate(path.profile))
         .catch((err) => console.log(err));
     } else {
-      await handleEditUserInfo(token, values.name, values.email, values.lang)
+      await handleEditUserInfo(
+        token,
+        userId,
+        values.name,
+        values.email,
+        values.lang,
+      )
         .then(() => navigate(path.profile))
         .catch((err) => console.log(err));
     }
@@ -48,6 +64,22 @@ const Profile = ({
 
   const handleJumpContacts = () => {
     navigate(path.contacts);
+  };
+
+  const handleDeleteProfile = async () => {
+    const token = localStorage.getItem('token');
+    await handleDellProfile(token, userId)
+      .then(() => {
+        logOut();
+        navigate(path.signin);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleModalAddUserCancel = () => {
+    setVisibleModalUpdatePass(false);
   };
 
   return (
@@ -65,23 +97,29 @@ const Profile = ({
           admin: userAdmin || false,
         }}
       >
-        <Tooltip placement="rightBottom" title={regularMessagesError.login}>
+        <Tooltip
+          placement="rightBottom"
+          title={locale.regularMessagesTooltip.login}
+        >
           <Form.Item
             name="name"
             label={`${locale.profile.fieldNameLogin}`}
             rules={[
               {
                 required: true,
-                message: validUserMessage.requiredErr,
+                message: locale.validUserMessage.required,
                 whitespace: true,
               },
               {
                 pattern: regularExpressions.login,
-                message: regularMessages.login,
+                message: locale.regularMessages.login,
               },
             ]}
           >
-            <Input placeholder={`${locale.profile.fieldNameLogin}`} />
+            <Input
+              placeholder={`${locale.profile.fieldNameLogin}`}
+              disabled={loading}
+            />
           </Form.Item>
         </Tooltip>
 
@@ -91,15 +129,18 @@ const Profile = ({
           rules={[
             {
               type: 'email',
-              message: validUserMessage.emailErr,
+              message: locale.validUserMessage.email,
             },
             {
               required: true,
-              message: validUserMessage.requiredErr,
+              message: locale.validUserMessage.required,
             },
           ]}
         >
-          <Input placeholder={`${locale.profile.fieldNameEmail}`} />
+          <Input
+            placeholder={`${locale.profile.fieldNameEmail}`}
+            disabled={loading}
+          />
         </Form.Item>
 
         {userAdmin && (
@@ -114,7 +155,7 @@ const Profile = ({
           rules={[
             {
               required: true,
-              message: validUserMessage.requiredErr,
+              message: locale.validUserMessage.required,
             },
           ]}
         >
@@ -133,41 +174,75 @@ const Profile = ({
 
         <Form.Item>
           <div className="form__profile-btnGroup">
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" disabled={loading}>
               {locale.profile.buttonTextSave}
             </Button>
-            <Button type="default">
-              {locale.profile.buttonTextDel}
-            </Button>
-            <Button type="default">
-              {locale.profile.buttonTextChangePassword}
-            </Button>
-            <Button type="default" onClick={handleJumpContacts}>
+            <Popconfirm
+              title={locale.profile.popconfirmTitleDeleteUser}
+              onConfirm={() => handleDeleteProfile()}
+            >
+              <Button type="default" disabled={loading}>
+                {locale.profile.buttonTextDel}
+              </Button>
+            </Popconfirm>
+            <Popconfirm
+              title={locale.profile.popconfirmTitleResetPassUser}
+              onConfirm={() => setVisibleModalUpdatePass(true)}
+            >
+              <Button type="default" disabled={loading}>
+                {locale.profile.buttonTextChangePassword}
+              </Button>
+            </Popconfirm>
+
+            <Button
+              type="default"
+              onClick={handleJumpContacts}
+              disabled={loading}
+            >
               {locale.profile.buttonLoadTextToMain}
             </Button>
           </div>
         </Form.Item>
       </Form>
+
+      {visibleModalUpdatePass && (
+        <ModalForm
+          visible={visibleModalUpdatePass}
+          title={locale.profile.titleModalPassword}
+          handleModalCancel={handleModalAddUserCancel}
+          footer={null}
+        >
+          <FormUpdatePass />
+        </ModalForm>
+      )}
     </Auth>
   );
 };
 
 export default inject(({ UserStore }) => {
   const {
+    userId,
     userName,
     userEmail,
     userAdmin,
     userLang,
     handleEditUserInfo,
     handleEditAdminInfo,
+    loading,
+    handleDellProfile,
+    logOut,
   } = UserStore;
 
   return {
+    userId,
     userName,
     userEmail,
     userAdmin,
     userLang,
     handleEditUserInfo,
     handleEditAdminInfo,
+    loading,
+    handleDellProfile,
+    logOut,
   };
 })(observer(Profile));

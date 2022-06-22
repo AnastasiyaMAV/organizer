@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -154,9 +155,10 @@ module.exports.updateUserAdmin = (req, res, next) => {
   const {
     name, email, admin, lang,
   } = req.body;
+  const { userId } = req.params;
 
   User.findByIdAndUpdate(
-    req.user._id,
+    userId,
     {
       name,
       email,
@@ -216,12 +218,14 @@ module.exports.updatePass = async (req, res, next) => {
   await User.findById(userId)
     .select('+password')
     .then((user) => {
-      // res.status(SUCCESS_OK).send(user);
+      if (!user) {
+        return Promise.reject(new Error(userErr.NotFoundError));
+      }
+
       bcrypt.compare(password, user.password)
         // eslint-disable-next-line consistent-return
         .then((matched) => {
           if (!matched) {
-            // return Promise.reject(new Error(userErr.BadRequestPassError));
             return res.status(ERROR_CODE).send({
               message: userErr.BadRequestPassError,
             });
@@ -232,7 +236,7 @@ module.exports.updatePass = async (req, res, next) => {
       if (err.name === 'CastError') {
         throw new BadRequestError(userErr.BadRequestError);
       }
-      if (err.message === 'NotFound') {
+      if (err.message === 'NotFound' || err.message === userErr.NotFoundError) {
         throw new NotFoundError(userErr.NotFoundError);
       }
       throw new InternalServerError(serverErr.InternalServerError);

@@ -24,6 +24,7 @@ export const register = {
   fieldNameLogin: 'Anmeldung',
   fieldNameEmail: 'Email',
   fieldNamePass: 'Passwort',
+  fieldNameConfirmPass: 'Passwort bestätigen',
   fieldNameAdmin: 'Administratorrechte',
   fieldNameLang: 'Sprache',
 };
@@ -38,12 +39,36 @@ export const profile = {
   fieldNameEmail: 'Email',
   fieldNameAdmin: 'Administratorrechte',
   fieldNameLang: 'Sprache',
+  fieldPassword: 'Passwort',
+  titlePassword: 'Jetziges Passwort',
+  titleNewPassword: 'Neues Passwort',
+  buttonPasswordSave: 'Speichern',
+  titleModalPassword: 'Passwortänderung',
+  popconfirmTitleResetPassUser: 'Möchten Sie Ihr Passwort wirklich zurücksetzen? Nach dem Zurücksetzen des Passworts wird das Profil abgemeldet.',
+  popconfirmTitleDeleteUser: 'Möchten Sie Ihr Profil wirklich löschen?',
 };
 
 export const form = {
   signup: 'Sign up',
   signin: 'Sign in',
   main: 'To Home',
+};
+
+export const regularMessages = {
+  password: 'Ungültiges Passwort. Beispiel: Password-123',
+  login: 'Ungültiger Login. Beispiel: nickname_321',
+};
+
+export const regularMessagesTooltip = {
+  password: 'Es müssen lateinische Klein- und Großbuchstaben, Zahlen, Sonderzeichen vorhanden sein. Mindestens 8 Zeichen',
+  login: 'Es sind nur lateinische Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Anzahl der Zeichen von 3 bis 16',
+};
+
+export const validUserMessage = {
+  required: 'Pflichtfeld',
+  email: 'Nur E-Mail ist erlaubt. Beispiel: name@mail.com',
+  confirm: 'Bitte bestätigen Sie Ihr Passwort',
+  confirmErr: 'Bitte bestätigen Sie Ihr Passwort',
 };
 
 export const langForm = {
@@ -57,9 +82,15 @@ export const users = {
   titleEmail: 'Email',
   titleLang: 'Sprache',
   titleAdmin: 'Administrator',
+  titlePass: 'Passwort',
+  titleConfirmPass: 'Passwort bestätigen',
   buttonTextAddUser: 'Nutzer hinzufügen',
+  buttonTextEditUser: 'Bearbeiten',
+  buttonTextSave: 'Sparen',
   buttonTextDelUser: 'Löschen',
   buttonTextResetPass: 'Passwort zurücksetzen',
+  popconfirmTitleResetPassUser: 'Möchten Sie das Passwort des Benutzers wirklich zurücksetzen?',
+  popconfirmTitleDeleteUser: 'Möchten Sie den Benutzer wirklich löschen?',
 };
 
 export const boolenVariable = {

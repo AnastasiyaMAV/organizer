@@ -1,15 +1,4 @@
 const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
-
-const { validErr } = require('../errors/errorMessages');
-
-// eslint-disable-next-line no-unused-vars
-const verifyUrl = (value) => {
-  if (validator.isURL(value, { require_protocol: true })) {
-    return value;
-  }
-  return value.message(validErr.urlErr);
-};
 
 module.exports.signinValidation = celebrate({
   body: Joi.object().keys({

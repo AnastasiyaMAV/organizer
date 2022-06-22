@@ -1,21 +1,24 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 
 import './Auth.scss';
 
-function Auth({
-  title,
-  children,
-}) {
-  return (
-    <section className="auth">
-      <div className="auth__container">
-        <h2 className="auth__title">{title}</h2>
+const Auth = ({ title, children, errload }) => (
+  <section className="auth">
+    <div className="auth__container">
+      <h2 className="auth__title">{title}</h2>
 
-        {children}
+      {children}
+    </div>
 
-      </div>
-    </section>
-  );
-}
+    {errload && <div className="auth__errload">{errload}</div>}
+  </section>
+);
 
-export default Auth;
+export default inject(({ UserStore }) => {
+  const { errload } = UserStore;
+
+  return {
+    errload,
+  };
+})(observer(Auth));

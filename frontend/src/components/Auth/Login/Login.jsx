@@ -1,19 +1,14 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { useNavigate, NavLink, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import './Login.scss';
 import { Button, Form, Input } from 'antd';
+import './Login.scss';
 import Auth from '../Auth';
 import { localize } from '../../../utils/constants/locales/localize';
-import * as validMessages from '../../../utils/constants/validMessages';
-import { regularExpressions } from '../../../utils/constants/regularExpressions/regularExpressions';
-import { regularMessages } from '../../../utils/constants/regularExpressions/regularMessages';
 import { path } from '../../../utils/constants/constants';
+import { regularExpressions } from '../../../utils/constants/regularExpressions';
 
-const { validUserMessage } = validMessages;
-
-const Login = ({ userLang, handleLogin, loggedIn }) => {
+const Login = ({ userLang, handleLogin, loading }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const locale = localize(userLang);
@@ -34,12 +29,12 @@ const Login = ({ userLang, handleLogin, loggedIn }) => {
         form={form}
         name="login"
         onFinish={onFinish}
+        scrollToFirstError
+        className="form__login"
         initialValues={{
           email: '',
           password: '',
         }}
-        scrollToFirstError
-        className="form__login"
       >
         <Form.Item
           name="email"
@@ -47,15 +42,18 @@ const Login = ({ userLang, handleLogin, loggedIn }) => {
           rules={[
             {
               type: 'email',
-              message: validUserMessage.emailErr,
+              message: locale.validUserMessage.email,
             },
             {
               required: true,
-              message: validUserMessage.requiredErr,
+              message: locale.validUserMessage.required,
             },
           ]}
         >
-          <Input placeholder={`${locale.register.fieldNameEmail}`} />
+          <Input
+            placeholder={`${locale.register.fieldNameEmail}`}
+            disabled={loading}
+          />
         </Form.Item>
 
         <Form.Item
@@ -64,29 +62,27 @@ const Login = ({ userLang, handleLogin, loggedIn }) => {
           rules={[
             {
               required: true,
-              message: validUserMessage.requiredErr,
+              message: locale.validUserMessage.required,
             },
-            // {
-            //   pattern: regularExpressions.password,
-            //   message: regularMessages.password,
-            // },
+            {
+              pattern: regularExpressions.password,
+              message: locale.regularMessages.password,
+            },
           ]}
-          hasFeedback
         >
-          <Input.Password placeholder={`${locale.register.fieldNamePass}`} />
+          <Input.Password
+            placeholder={`${locale.register.fieldNamePass}`}
+            disabled={loading}
+          />
         </Form.Item>
 
-        <div className="register_btnGroup">
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              {locale.login.buttonTextSignin}
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="default" onClick={handleJumpSignup}>
-              {locale.register.buttonTextSignup}
-            </Button>
-          </Form.Item>
+        <div className="form__login-btnGroup">
+          <Button type="primary" htmlType="submit" disabled={loading}>
+            {locale.login.buttonTextSignin}
+          </Button>
+          <Button type="default" onClick={handleJumpSignup} disabled={loading}>
+            {locale.register.buttonTextSignup}
+          </Button>
         </div>
       </Form>
     </Auth>
@@ -94,11 +90,11 @@ const Login = ({ userLang, handleLogin, loggedIn }) => {
 };
 
 export default inject(({ UserStore }) => {
-  const { userLang, handleLogin, loggedIn } = UserStore;
+  const { userLang, handleLogin, loading } = UserStore;
 
   return {
     userLang,
     handleLogin,
-    loggedIn,
+    loading,
   };
 })(observer(Login));

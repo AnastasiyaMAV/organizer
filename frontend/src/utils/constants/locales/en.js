@@ -24,6 +24,7 @@ export const register = {
   fieldNameLogin: 'Login',
   fieldNameEmail: 'E-mail',
   fieldNamePass: 'Password',
+  fieldNameConfirmPass: 'Confirm Password',
   fieldNameAdmin: 'Admin rights',
   fieldNameLang: 'Lang',
 };
@@ -38,12 +39,36 @@ export const profile = {
   fieldNameEmail: 'E-mail',
   fieldNameAdmin: 'Admin rights',
   fieldNameLang: 'Lang',
+  fieldPassword: 'Password',
+  titlePassword: 'Current Password',
+  titleNewPassword: 'New Password',
+  buttonPasswordSave: 'Save',
+  titleModalPassword: 'Password change',
+  popconfirmTitleResetPassUser: 'Are you sure you want to reset your password? After resetting the password, the profile will be logged out.',
+  popconfirmTitleDeleteUser: 'Are you sure you want to delete your profile?',
 };
 
 export const form = {
   signup: 'Registrieren',
   signin: 'Betreten',
   main: 'Zur Hauptsache',
+};
+
+export const regularMessages = {
+  password: 'Invalid password. Example: Password-123',
+  login: 'Invalid login. Example: nickname_321',
+};
+
+export const regularMessagesTooltip = {
+  password: 'There must be lowercase and uppercase Latin letters, numbers, special characters. Minimum 8 characters',
+  login: 'Only lowercase Latin letters, numbers, underscores, dashes are allowed. Number of characters from 3 to 16',
+};
+
+export const validUserMessage = {
+  required: 'Required field',
+  email: 'Only E-mail is allowed. Example: name@mail.com',
+  confirm: 'Please confirm your password',
+  confirmErr: 'The two passwords that you entered do not match',
 };
 
 export const langForm = {
@@ -57,9 +82,15 @@ export const users = {
   titleEmail: 'E-mail',
   titleLang: 'Lang',
   titleAdmin: 'Admin',
+  titlePass: 'Password',
+  titleConfirmPass: 'Confirm the password',
   buttonTextAddUser: 'Add user',
+  buttonTextEditUser: 'Edit',
+  buttonTextSave: 'Save',
   buttonTextDelUser: 'Delete',
   buttonTextResetPass: 'Reset the password',
+  popconfirmTitleResetPassUser: 'Are you sure you want to reset the user password?',
+  popconfirmTitleDeleteUser: 'Are you sure you want to delete the user?',
 };
 
 export const boolenVariable = {

@@ -1,106 +1,32 @@
 @import "../screen.scss";
 
-@mixin zero {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-// Обнуление стилей для списков
-@mixin list {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-// Стили для списка каждого раздела меню
-@mixin menu-list {
-  @include list;
-
-  & > li:not(:last-child) {
-    margin-bottom: 5px;
-  }
-
-  & > li > a {
-    text-decoration: none;
-  }
-}
-
-// Стили заголовка раздела меню
-@mixin menu-title {
-  margin: 0;
-  padding: 0 0 10px 10px;
-
-  font-size: 10px;
-  font-weight: 100;
-  color: #5a5858;
-}
-
-// МИКСИН для стилизации таблиц раздела Модули (возможно расширить для стилизации всех таблиц)
-
-// АРГУМЕНТЫ: class, padding для th, padding для input, padding для td (optional), text-align (optional)
-@mixin table-style(
-  $className,
-  $th-paddings,
-  $input-paddings,
-  // Optional, подставится значение по умолчанию, если не будет явно указан аргумент при вызове миксина
-  $td-paddings: (5px 0),
-  $text-align: center
-) {
-  .#{$className} {
-    border-left: none;
-    border-right: none;
-
-    &__header {
-      border-top: 1px solid $gray3;
-
-      & th {
-        padding: #{$th-paddings};
-
-        @include subtitle;
-        color: $gray4;
-
-        &:last-child {
-          text-align: #{$text-align};
-        }
-      }
+//анимация для логотипа
+@mixin animation-log {
+  $transition: all 0.2s ease-out;
+  animation: 10s linear 0s normal none infinite running rot;
+  -webkit-animation: 10s linear 0s normal none infinite running rot;
+  @keyframes rot {
+    0% {
+      transform: rotate(0deg);
     }
-
-    &__body {
-      @include mainText;
-
-      border-top: 1px solid $gray3 !important;
-
-      & tr {
-        border-top: 1px solid $gray3;
-        border-bottom: 1px solid $gray3;
-      }
-
-      & tr:hover {
-        // background: $whiteBlue;
-        border-top: 1px solid $lightBlue;
-        border-bottom: 1px solid $lightBlue;
-      }
-
-      & td {
-        padding: #{$td-paddings};
-
-        vertical-align: middle;
-      }
-
-      & input {
-        padding: #{$input-paddings};
-        margin: 0 auto;
-
-        @include mainText;
-        text-align: #{$text-align};
-
-        cursor: pointer;
-      }
-
-      & textarea {
-        @extend input;
-      }
+    100% {
+      transform: rotate(360deg);
     }
   }
+  @-webkit-keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+
+//стиль для кнопок на всех формах
+@mixin form__btnGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
 }

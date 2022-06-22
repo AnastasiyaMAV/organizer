@@ -1,31 +1,7 @@
 @import "../../../assets/styles/main.scss";
 
 .form__register {
-  & > div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    & div:first-child {
-      text-align: start;
-    }
-
-    & div:nth-child(6), & div:last-child {
-      & button {
-        width: 100%;
-      }
-    }
-  }
-
-  & div:nth-child(3) {
-    position: relative;
-
-    & div:nth-child(2) {
-      & div:nth-child(2) {
-        & > div {
-          position: absolute;
-        }
-      }
-    }
+  &-btnGroup {
+    @include form__btnGroup;
   }
 }

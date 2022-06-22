@@ -6,12 +6,14 @@ module.exports.userErr = {
   ConflictError: 'Пользователь с таким Логином или Email уже зарегистрирован',
 };
 
-module.exports.userValidErr = {
-  urlErrEmail: 'Неверная почта',
+module.exports.contactErr = {
+  BadRequestError: 'Переданы некорректные данные',
+  ValidationError: 'Ошибка валидации при создании контакта',
 };
 
 module.exports.validErr = {
   urlErr: 'Неверный URL-адрес',
+  emailErr: 'Неверная почта',
 };
 
 module.exports.authErr = {

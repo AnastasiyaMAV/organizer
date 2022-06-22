@@ -2,8 +2,6 @@
 
 .form__profile {
   &-btnGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 10px
+    @include form__btnGroup;
   }
 }

@@ -11,27 +11,9 @@
     display: flex;
     width: $logoWidth;
     height: $logoHeight;
-    animation: 10s linear 0s normal none infinite running rot;
-    -webkit-animation: 10s linear 0s normal none infinite running rot;
-    transition: $transition;
+    @include animation-log;
     &_filter-brightness {
       filter: brightness(400%);
-    }
-  }
-  @keyframes rot {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes rot {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
     }
   }
 

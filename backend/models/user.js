@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const { userValidErr } = require('../errors/errorMessages');
+const { validErr } = require('../errors/errorMessages');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
       validator(value) {
         return validator.isEmail(value);
       },
-      message: userValidErr.urlErrEmail,
+      message: validErr.emailErr,
     },
   },
   password: {

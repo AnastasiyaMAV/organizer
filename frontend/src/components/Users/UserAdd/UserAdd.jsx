@@ -1,46 +1,65 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import './UserAdd.scss';
+import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import './Register.scss';
 import {
-  Button, Form, Input, Select, Tooltip,
+  Form, Input, Select, Checkbox, Tooltip, Button,
 } from 'antd';
-import Auth from '../Auth';
-import { path, langValue } from '../../../utils/constants/constants';
+import { langValue } from '../../../utils/constants/constants';
 import { localize } from '../../../utils/constants/locales/localize';
 import { regularExpressions } from '../../../utils/constants/regularExpressions';
 
-const Register = ({ userLang, handleRegister, loading }) => {
-  const navigate = useNavigate();
+const UserAdd = ({
+  userLang,
+  loading,
+  handleAddUserUnderAdmin,
+  handleAllUsers,
+  errload,
+  setErrload,
+  successLoad,
+  setSuccessLoad,
+}) => {
   const [form] = Form.useForm();
   const locale = localize(userLang);
 
+  useEffect(() => {
+    setErrload();
+  }, [setErrload]);
+
+  useEffect(() => {
+    setSuccessLoad();
+  }, [setSuccessLoad]);
+
   const onFinish = async (values) => {
-    await handleRegister(
+    const token = localStorage.getItem('token');
+    await handleAddUserUnderAdmin(
       values.name,
       values.email,
       values.password,
       values.lang,
-      false, // admin
+      values.admin,
     )
-      .then(() => navigate(path.signin))
-      .catch((err) => console.log(err));
-  };
-
-  const handleJumpSignin = () => {
-    navigate(path.signin);
+      .then(async () => {
+        await handleAllUsers(token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    form.resetFields();
   };
 
   return (
-    <Auth title={`${locale.register.title}`}>
+    <>
       <Form
         form={form}
-        name="register"
+        name="userAdd"
         onFinish={onFinish}
         scrollToFirstError
-        className="form__register"
+        className="form__userAdd"
         initialValues={{
+          name: '',
+          email: '',
           lang: langValue.RU,
+          admin: false,
         }}
       >
         <Tooltip
@@ -49,11 +68,11 @@ const Register = ({ userLang, handleRegister, loading }) => {
         >
           <Form.Item
             name="name"
-            label={`${locale.register.fieldNameLogin}`}
+            label={`${locale.users.titleLogin}`}
             rules={[
               {
                 required: true,
-                message: locale.validUserMessage.require,
+                message: locale.validUserMessage.required,
                 whitespace: true,
               },
               {
@@ -62,16 +81,13 @@ const Register = ({ userLang, handleRegister, loading }) => {
               },
             ]}
           >
-            <Input
-              placeholder={`${locale.register.fieldNameLogin}`}
-              disabled={loading}
-            />
+            <Input placeholder={`${locale.users.titleLogin}`} />
           </Form.Item>
         </Tooltip>
 
         <Form.Item
           name="email"
-          label={`${locale.register.fieldNameEmail}`}
+          label={`${locale.users.titleEmail}`}
           rules={[
             {
               type: 'email',
@@ -84,7 +100,7 @@ const Register = ({ userLang, handleRegister, loading }) => {
           ]}
         >
           <Input
-            placeholder={`${locale.register.fieldNameEmail}`}
+            placeholder={`${locale.users.titleEmail}`}
             disabled={loading}
           />
         </Form.Item>
@@ -95,7 +111,7 @@ const Register = ({ userLang, handleRegister, loading }) => {
         >
           <Form.Item
             name="password"
-            label={`${locale.register.fieldNamePass}`}
+            label={`${locale.users.titlePass}`}
             rules={[
               {
                 required: true,
@@ -108,7 +124,7 @@ const Register = ({ userLang, handleRegister, loading }) => {
             ]}
           >
             <Input.Password
-              placeholder={`${locale.register.fieldNamePass}`}
+              placeholder={`${locale.users.titlePass}`}
               disabled={loading}
             />
           </Form.Item>
@@ -116,7 +132,7 @@ const Register = ({ userLang, handleRegister, loading }) => {
 
         <Form.Item
           name="confirm"
-          label={`${locale.register.fieldNameConfirmPass}`}
+          label={`${locale.users.titleConfirmPass}`}
           dependencies={['password']}
           rules={[
             {
@@ -137,14 +153,18 @@ const Register = ({ userLang, handleRegister, loading }) => {
           ]}
         >
           <Input.Password
-            placeholder={`${locale.register.fieldNameConfirmPass}`}
+            placeholder={`${locale.users.titleConfirmPass}`}
             disabled={loading}
           />
         </Form.Item>
 
+        <Form.Item name="admin" valuePropName="checked">
+          <Checkbox>{locale.users.titleAdmin}</Checkbox>
+        </Form.Item>
+
         <Form.Item
           name="lang"
-          label={locale.register.fieldNameLang}
+          label={locale.users.titleLang}
           rules={[
             {
               required: true,
@@ -152,7 +172,6 @@ const Register = ({ userLang, handleRegister, loading }) => {
             },
           ]}
         >
-
           <Select>
             <Select.Option value={langValue.RU}>
               {locale.langForm.RU}
@@ -167,26 +186,42 @@ const Register = ({ userLang, handleRegister, loading }) => {
         </Form.Item>
 
         <Form.Item>
-          <div className="form__register-btnGroup">
-            <Button type="primary" htmlType="submit" disabled={loading}>
-              {locale.register.buttonTextSignup}
-            </Button>
-            <Button type="default" onClick={handleJumpSignin} disabled={loading}>
-              {locale.login.buttonTextSignin}
-            </Button>
+          <div className="form__userAdd-btnGroup">
+            {errload || successLoad ? (
+              <>
+                <div>{errload}</div>
+                <div>{successLoad}</div>
+              </>
+            ) : (
+              <Button type="primary" htmlType="submit" disabled={loading}>
+                {locale.users.buttonTextSave}
+              </Button>
+            )}
           </div>
         </Form.Item>
       </Form>
-    </Auth>
+    </>
   );
 };
 
 export default inject(({ UserStore }) => {
-  const { userLang, handleRegister, loading } = UserStore;
+  const {
+    userLang,
+    handleAddUserUnderAdmin,
+    handleAllUsers,
+    errload,
+    setErrload,
+    successLoad,
+    setSuccessLoad,
+  } = UserStore;
 
   return {
     userLang,
-    handleRegister,
-    loading,
+    handleAddUserUnderAdmin,
+    handleAllUsers,
+    errload,
+    setErrload,
+    successLoad,
+    setSuccessLoad,
   };
-})(observer(Register));
+})(observer(UserAdd));
