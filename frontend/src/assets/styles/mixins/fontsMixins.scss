@@ -1,0 +1,41 @@
+@mixin title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: $black;
+}
+
+@mixin subtitle {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: $black;
+}
+
+@mixin mainText {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: $black;
+}
+
+@mixin listMainText {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: $black;
+}
+
+@mixin smallBtnText {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: $gray5;
+}
+
+@mixin caption {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: $gray5;
+}

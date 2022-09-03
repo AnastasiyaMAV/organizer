@@ -1,0 +1,78 @@
+@import "../../assets/styles/main.scss";
+
+.form-select {
+  &__label {
+    @include listMainText;
+    margin: 15px 0 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  &__wrap {
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin: 5px 0 0;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid $gray2;
+    box-sizing: border-box;
+    color: $white;
+  }
+  &__wrap::after {
+    content: "";
+    max-width: 10px;
+    width: 100%;
+    max-height: 10px;
+    height: 100%;
+    position: absolute;
+    top: 14px;
+    right: 0;
+    padding: 0 1em;
+    background-image: url(./FormSelectOption/images/select.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+  }
+  &__wrap:hover::after {
+    color: $coral;
+  }
+  &__select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: $white;
+    background-image: none;
+    flex: 1;
+    padding: 10px;
+    color: black;
+    cursor: pointer;
+    @include listMainText;
+
+    &_disabled {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      outline: 0;
+      box-shadow: none;
+      border: 0 !important;
+      background: $gray4;
+      background-image: none;
+      flex: 1;
+      padding: 10px;
+      color: black;
+      cursor: default;
+      @include listMainText;
+    }
+  }
+  &__select::-ms-expand {
+    display: none;
+  }
+}

@@ -1,0 +1,526 @@
+@mixin mainBtn {
+  @include mainText;
+  width: 100%;
+  cursor: pointer;
+  padding: 11px 0px;
+  border-radius: 6px;
+  border: none;
+  color: $white;
+  background-color: $skyBlue;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:active {
+    box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+
+    &:focus {
+      box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &_disabled {
+    width: 100%;
+    @include mainText;
+    padding: 11px 49px;
+    border-radius: 6px;
+    border: none;
+    color: $white;
+    background-color: $lightBlue;
+    margin: 40px 0 20px;
+  }
+}
+
+@mixin secondBtn {
+  @include mainText;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8px;
+  padding: 11px 20px;
+  border-radius: 6px;
+  border: none;
+  color: $skyBlue;
+  background-color: $gray2;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  p {
+    margin: 0;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 140, 255, 0.1);
+  }
+
+  &:focus {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 140, 255, 0.1);
+  }
+
+  &:active {
+    background-color: $gray3;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 140, 255, 0.1);
+
+    &:focus {
+      background-color: $gray3;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 140, 255, 0.1);
+    }
+  }
+
+  &:disabled {
+    color: $gray4;
+    background-color: $gray2;
+  }
+}
+
+@mixin smallBtn {
+  @include listMainText;
+  cursor: pointer;
+  padding: 6px 20px 7px;
+  border-radius: 6px;
+  border: none;
+  color: $skyBlue;
+  background-color: $gray2;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    color: $skyBlue;
+    background-color: $gray2;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:focus {
+    color: $skyBlue;
+    background-color: $gray2;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:active {
+    box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+
+    &:focus {
+      box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &:disabled {
+    color: $white;
+    background-color: $lightBlue;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+}
+
+@mixin floatingBtn {
+  @include mainText;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6px;
+  width: max-content;
+  padding: 10px 16px 10px 14px;
+  border-radius: 20px;
+  border: none;
+  color: $white;
+  background-color: $skyBlue;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  p {
+    margin: 0;
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:active {
+    box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    &:focus {
+      box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+@mixin tableBtn {
+  @include listMainText;
+  cursor: pointer;
+  padding: 5px 18px 6px;
+  border-radius: 16px;
+  border: none;
+  color: $black;
+  background-color: $white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 140, 255, 0.1);
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    color: $black;
+    background-color: $white;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:focus {
+    color: $black;
+    background-color: $white;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12), 0px 4px 16px rgba(0, 140, 255, 0.4);
+  }
+
+  &:active {
+    color: $white;
+    background-color: $gray7;
+    box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    &:focus {
+      color: $white;
+      background-color: $gray7;
+      box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+@mixin linkBtn {
+  @include mainText;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: $skyBlue;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    font-weight: 500;
+  }
+
+  &:focus {
+    font-weight: 500;
+  }
+
+  &:active {
+    background-color: $whiteBlue;
+    border-radius: 16px;
+    padding: 4px 12px 7px;
+
+    &:focus {
+      background-color: $whiteBlue;
+      border-radius: 16px;
+      padding: 4px 12px 7px;
+    }
+  }
+}
+
+@mixin blueWithIconBtn {
+  @include mainText;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6px;
+  padding: 0px 11px;
+  border-radius: 20px;
+  border: none;
+  color: $skyBlue;
+  background-color: transparent;
+
+  p {
+    margin: 0;
+    padding: 9px 0px 10px;
+  }
+
+  &:hover {
+    font-weight: 500;
+    background-color: transparent;
+  }
+
+  &:focus {
+    font-weight: 500;
+    background-color: transparent;
+  }
+
+  &:active {
+    font-weight: 500;
+    background-color: $whiteBlue;
+    &:focus {
+      font-weight: 500;
+      background-color: $whiteBlue;
+    }
+  }
+}
+
+@mixin grayWithIconBtn {
+  @include listMainText;
+  cursor: pointer;
+  filter: grayscale(1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6px;
+  padding: 0px 11px;
+  border-radius: 20px;
+  border: none;
+  color: $gray5;
+  background-color: transparent;
+
+  p {
+    margin: 0;
+    padding: 8px 0px 10px;
+  }
+
+  &:hover {
+    filter: none;
+    color: $skyBlue;
+    background-color: transparent;
+  }
+
+  &:focus {
+    filter: none;
+    color: $skyBlue;
+    background-color: transparent;
+  }
+
+  &:active {
+    filter: none;
+    color: $skyBlue;
+    background-color: $whiteBlue;
+    &:focus {
+      filter: none;
+      color: $skyBlue;
+      background-color: $whiteBlue;
+    }
+  }
+}
+
+@mixin squareIconBtn {
+  @include mainText;
+  cursor: pointer;
+  padding: 27px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: $gray2;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06), 0px 4px 16px rgba(0, 140, 255, 0.1);
+  }
+
+  &:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06), 0px 4px 16px rgba(0, 140, 255, 0.1);
+  }
+
+  &:active {
+    background-color: $gray3;
+    box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    &:focus {
+      background-color: $gray3;
+      box-shadow: inset 4px -4px 4px rgba(255, 255, 255, 0.5), inset -4px 4px 4px rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+@mixin roundIconBtn {
+  cursor: pointer;
+  filter: grayscale(1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: transparent;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  &:hover {
+    filter: none;
+  }
+
+  &:focus {
+    filter: none;
+  }
+
+  &:active {
+    filter: none;
+    background-color: $whiteBlue;
+    &:focus {
+      filter: none;
+      background-color: $whiteBlue;
+    }
+  }
+}
+
+// Эффекты для кнопок в левом меню, для групп кнопок, применяются для hover, focus, active:focus
+@mixin button-effect {
+  color: $white;
+  border: none;
+  background: $gray7;
+  box-shadow: none;
+}
+
+@mixin menuButton-effect($className) {
+  @include button-effect;
+  transition: all 0.4s ease;
+  .#{$className} {
+    &__text {
+      color: $white;
+      transition: all 0.4s ease;
+    }
+    &__label {
+      color: $gray5;
+      transition: all 0.4s ease;
+    }
+  }
+}
+
+@mixin menuButton($className) {
+  .#{$className} {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 20px;
+
+    background: none;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.4s ease;
+
+    & > * {
+      margin-bottom: 0;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+
+    &__text {
+      @include mainText;
+      color: $black;
+    }
+
+    &__label {
+      @include caption;
+      color: $skyBlue;
+    }
+
+    &:hover {
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+    }
+
+    &:focus {
+      @include menuButton-effect(#{$className});
+    }
+
+    &:active {
+      @include menuButton-effect(#{$className});
+
+      &:focus {
+        @include menuButton-effect(#{$className});
+      }
+    }
+  }
+}
+
+// Общие стили для кнопок в левом меню
+// УДАЛИТЬ миксин, когда кнопки в левом меню будут изменены
+@mixin menu-list__button {
+  width: 100%;
+  padding: 8px 75px 8px 20px;
+
+  color: $black;
+  text-align: left;
+
+  background: none;
+  border: none;
+  box-shadow: none;
+
+  &:hover {
+    @include button-effect;
+  }
+
+  &:focus {
+    @include button-effect;
+  }
+
+  &:active {
+    @include button-effect;
+
+    &:focus {
+      @include button-effect;
+    }
+  }
+}
+
+// Миксин для стилизации кнопки из группы кнопок
+@mixin btnGroupButton(
+  $className,
+  // required
+  $paddings: (12px 18px) // optional
+) {
+  .#{$className} {
+    padding: #{$paddings};
+
+    text-align: left;
+
+    background: $gray2;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.4s ease-in-out;
+
+    & > p {
+      margin: 0;
+
+      transition: all 0.4s ease-in-out;
+    }
+
+    &__label {
+      margin-bottom: 3px;
+      @include caption;
+    }
+
+    &__text {
+      @include mainText;
+    }
+
+    &:hover {
+      background: $white;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease-in-out;
+    }
+
+    &:focus {
+      @include button-effect;
+      & .#{$className}__text {
+        color: $white;
+        transition: all 0.4s ease-in-out;
+      }
+    }
+
+    &:active {
+      @include button-effect;
+
+      &:focus {
+        @include button-effect;
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+@import "../../assets/styles/main.scss";
+
+.header {
+  $pad: ($logoHeight / 2);
+  padding:$pad 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__logo {
+    display: flex;
+    width: $logoWidth;
+    height: $logoHeight;
+    @include animation-log;
+    &_filter-brightness {
+      filter: brightness(400%);
+    }
+  }
+
+  &__menu {
+    &_signin {
+      display: flex;
+      justify-content: flex-end;
+      margin-left: auto;
+    }
+  }
+
+  &__location-items {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    align-items: center;
+  }
+
+  &__location-item {
+    margin-right: 30px;
+    &:last-child {
+      margin-right: 0;
+    }
+    &_lang {
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      background-color: #f3f3f3;
+      border-radius: 25px;
+    }
+  }
+
+  &__btn-navlink {
+    @include mainText;
+
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    background-color: $gray2;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: $transition;
+
+    &:hover {
+      background-color: $white;
+      text-decoration: none;
+    }
+
+    &_active {
+      text-decoration: none;
+      background-color: $white;
+      //background-position: left;
+      background-repeat: no-repeat;
+      background-size: 25px;
+      background-position: 10% 50%;
+    }
+  }
+
+  &__btn-sign {
+    @include mainText;
+    display: flex;
+    align-items: center;
+    color: $black;
+    text-decoration: none;
+    transition: $transition;
+
+    &:hover {
+      color: $skyBlue;
+    }
+  }
+
+  &__btn-lang {
+    @include mainText;
+
+    margin-right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &_active {
+      text-decoration: underline;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@import "../../assets/styles/main.scss";
+
+.form-field {
+  &__label {
+    @include listMainText;
+    margin: 10px 0 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  &__input {
+    @include listMainText;
+    margin: 5px 0 0;
+    padding: 10px;
+    border: 1px solid $gray2;
+    box-sizing: border-box;
+    border-radius: 6px;
+
+    &_disabled {
+      @include listMainText;
+      margin: 5px 0 0;
+      padding: 10px;
+      border: 1px solid $gray2;
+      box-sizing: border-box;
+      border-radius: 6px;
+      background-color: $gray4;
+    }
+  }
+  &__input-err {
+    @include caption;
+    position: absolute;
+    top: 65px;
+    color: $normalRed;
+  }
+}

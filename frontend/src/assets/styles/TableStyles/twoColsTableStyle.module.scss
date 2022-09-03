@@ -1,0 +1,27 @@
+@import "src/assets/styles/main.scss";
+
+.tableTitle {
+  @include subtitle;
+  border-bottom: 1px solid $gray3;
+  padding: 30px 0px;
+}
+
+.tableSubitle {
+  @include caption;
+}
+
+.value,
+.boldvalue {
+  @include subtitle;
+  text-align: end;
+}
+
+.lastvalue {
+  font-weight: 600;
+}
+
+.value,
+.boldvalue,
+.tableSubitle {
+  padding: 15px 0px;
+}

@@ -1,0 +1,434 @@
+$c-red: #ef5350;
+$ch-red: darken($c-red, 20%);
+
+$c-pink: #ec407a;
+$ch-pink: darken($c-pink, 20%);
+
+$c-purple: #ab47bc;
+$ch-purple: darken($c-purple, 20%);
+
+$c-deep-purple: #7e57c2;
+$ch-deep-purple:darken($c-deep-purple, 20%);
+
+$c-indigo: #5c6bc0;
+$ch-indigo: darken($c-indigo, 20%);
+
+$c-blue: #42a5f5;
+$ch-blue: darken($c-blue, 20%);
+
+$c-light-blue: #29b6f6;
+$ch-light-blue:darken($c-light-blue, 20%);
+
+$c-cyan: #26c6da;
+$ch-cyan: darken($c-cyan, 20%);
+
+$c-teal: #26a69a;
+$ch-teal: darken($c-teal, 20%);
+
+$c-green: #66bb6a;
+$ch-green: darken($c-green, 20%);
+
+$c-light-green: #9ccc65;
+$ch-light-green:darken($c-light-green, 20%);
+
+$c-lime: #d4e157;
+$ch-lime: darken($c-lime, 20%);
+
+$c-yellow: #ffee58;
+$ch-yellow: darken($c-yellow, 20%);
+
+$c-amber: #ffca28;
+$ch-amber: darken($c-amber, 20%);
+
+$c-orange: #ffa726;
+$ch-orange: darken($c-orange, 20%);
+
+$c-deep-orange: #ff7043;
+$ch-deep-orange:darken($c-deep-orange, 20%);
+
+$c-brown: #8d6e63;
+$ch-brown: darken($c-brown, 20%);
+
+$c-grey: #bdbdbd;
+$ch-grey: darken($c-grey, 20%);
+
+$c-blue-grey: #78909c;
+$ch-blue-grey:darken($c-blue-grey, 20%);
+
+$white-text: #FFF;
+$black-text: #000;
+
+$colors_list: (
+"red":$ch-pink,
+"pink":$ch-pink,
+"purple":$ch-purple,
+"indigo":$ch-indigo ,
+"blue":$ch-blue,
+"cyan":$ch-cyan,
+"teal":$ch-teal,
+"green":$ch-green,
+"lime":$ch-lime,
+"yellow":$ch-yellow,
+"amber":$ch-amber,
+"orange":$ch-orange,
+"brown":$ch-brown,
+"grey":$ch-grey,
+"blue-grey":$ch-blue-grey,
+);
+.table-hover {
+	.bg {
+		@each $name, $color in $colors_list {
+				&-#{$name}:hover {
+					background-color: $color !important;
+				}
+			}
+		}
+}
+
+.bg, .label, .btn {
+	&-white {
+		background-color: $white-text !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $white-text !important;
+			}
+		}
+	}
+	&-red {
+		background-color: $c-red !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-red !important;
+			}
+		}
+	}
+	&-pink {
+		background-color: $c-pink !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-pink !important;
+			}
+		}
+	}
+	&-purple {
+		background-color: $c-purple !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-purple !important;
+			}
+		}
+	}
+	&-deep-purple {
+		background-color: $c-deep-purple !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-deep-purple !important;
+			}
+		}
+	}
+	&-indigo {
+		background-color: $c-indigo !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-indigo !important;
+			}
+		}
+	}
+	&-blue {
+		background-color: $c-blue !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-blue !important;
+			}
+		}
+	}
+	&-light-blue {
+		background-color: $c-light-blue !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-light-blue !important;
+			}
+		}
+	}
+	&-cyan {
+		background-color: $c-cyan !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-cyan !important;
+			}
+		}
+	}
+	&-teal {
+		background-color: $c-teal !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-teal !important;
+			}
+		}
+	}
+	&-green {
+		background-color: $c-green !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-green !important;
+			}
+		}
+	}
+	&-light-green {
+		background-color: $c-light-green !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-light-green !important;
+			}
+		}
+	}
+	&-lime {
+		background-color: $c-lime !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-lime !important;
+			}
+		}
+	}
+	&-yellow {
+		background-color: $c-yellow !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-yellow !important;
+			}
+		}
+	}
+	&-amber {
+		background-color: $c-amber !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-amber !important;
+			}
+		}
+	}
+	&-orange {
+		background-color: $c-orange !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-orange !important;
+			}
+		}
+	}
+	&-deep-orange {
+		background-color: $c-deep-orange !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-deep-orange !important;
+			}
+		}
+	}
+	&-brown {
+		background-color: $c-brown !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-brown !important;
+			}
+		}
+	}
+	&-grey {
+		background-color: $c-grey !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-grey !important;
+			}
+		}
+	}
+	&-blue-grey {
+		background-color: $c-blue-grey !important;
+		&-hover {
+			background-color: $c-grey !important;
+			color: $white-text !important;
+			&:hover {
+				background-color: $c-blue-grey !important;
+			}
+		}
+	}
+
+	&-red,
+	&-pink,
+	&-purple,
+	&-deep-purple,
+	&-indigo,
+	&-blue,
+	&-light-blue,
+	&-cyan,
+	&-teal,
+	&-green,
+	&-deep-orange,
+	&-brown,
+	&-grey,
+	&-blue-grey {
+		color: $white-text !important;
+	}
+	&-light-green,
+	&-lime,
+	&-yellow,
+	&-amber,
+	&-orange {
+		color: $black-text !important;
+	}
+}
+
+.text {
+	&-red {
+		color: $c-red !important;
+	}
+	&-pink {
+		color: $c-pink !important;
+	}
+	&-purple {
+		color: $c-purple !important;
+	}
+	&-deep-purple {
+		color: $c-deep-purple !important;
+	}
+	&-indigo {
+		color: $c-indigo !important;
+	}
+	&-blue {
+		color: $c-blue !important;
+	}
+	&-light-blue {
+		color: $c-light-blue !important;
+	}
+	&-cyan {
+		color: $c-cyan !important;
+	}
+	&-teal {
+		color: $c-teal !important;
+	}
+	&-green {
+		color: $c-green !important;
+	}
+	&-light-green {
+		color: $c-light-green !important;
+	}
+	&-lime {
+		color: $c-lime !important;
+	}
+	&-yellow {
+		color: $c-yellow !important;
+	}
+	&-amber {
+		color: $c-amber !important;
+	}
+	&-orange {
+		color: $c-orange !important;
+	}
+	&-deep-orange {
+		color: $c-deep-orange !important;
+	}
+	&-brown {
+		color: $c-brown !important;
+	}
+	&-grey {
+		color: $c-grey !important;
+	}
+	&-blue-grey {
+		color: $c-blue-grey !important;
+	}
+
+}
+
+.tr {
+	&-red {
+		border-left: $ch-red 3px solid !important;
+	}
+	&-pink {
+		border-left: $ch-pink 3px solid !important;
+	}
+	&-purple {
+		border-left: $ch-purple 3px solid !important;
+	}
+	&-deep-purple {
+		border-left: $ch-deep-purple 3px solid !important;
+	}
+	&-indigo {
+		border-left: $ch-indigo 3px solid !important;
+	}
+	&-blue {
+		border-left: $ch-blue 3px solid !important;
+	}
+	&-light-blue {
+		border-left: $ch-light-blue 3px solid !important;
+	}
+	&-cyan {
+		border-left: $ch-cyan 3px solid !important;
+	}
+	&-teal {
+		border-left: $ch-teal 3px solid !important;
+	}
+	&-green {
+		border-left: $ch-green 3px solid !important;
+	}
+	&-light-green {
+		border-left: $ch-light-green 3px solid !important;
+	}
+	&-lime {
+		border-left: $ch-lime 3px solid !important;
+	}
+	&-yellow {
+		border-left: $ch-yellow 3px solid !important;
+	}
+	&-amber {
+		border-left: $ch-amber 3px solid !important;
+	}
+	&-orange {
+		border-left: $ch-orange 3px solid !important;
+	}
+	&-deep-orange {
+		border-left: $ch-deep-orange 3px solid !important;
+	}
+	&-brown {
+		border-left: $ch-brown 3px solid !important;
+	}
+	&-grey {
+		border-left: $ch-grey 3px solid !important;
+	}
+	&-blue-grey {
+		border-left: $ch-blue-grey 3px solid !important;
+	}
+}

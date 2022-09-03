@@ -1,0 +1,105 @@
+@import "../../assets/styles/main.scss";
+
+@mixin beforeElemStyle {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -12px;
+  bottom: -12px;
+  border-radius: 50%;
+  transform: translateZ(-10px);
+}
+
+.form-checkbox {
+  &__label {
+    max-width: 320px;
+    margin: 15px 0 25px;
+    display: flex;
+    // justify-content: space-between;
+  }
+
+  &__input {
+    position: relative;
+    display: grid;
+    place-content: center;
+    margin: 0 10px 0 0;
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    // Пустой
+    width: 18px;
+    height: 18px;
+    border: 1px solid $gray4;
+    border-radius: 2px;
+    transform-style: preserve-3d;
+
+    // При нажатии на пустой
+    &:not(:checked):active {
+      background: $gray1;
+
+      &::before {
+        @include beforeElemStyle;
+        background: rgba(197, 198, 198, 0.15);
+      }
+    }
+
+    // Выбран
+    &:checked {
+      border: 1px solid $lightBlue;
+      border-radius: 2px;
+      background: $lightBlue;
+      transition: 0.4s all ease-in-out;
+
+      &::before {
+        content: url("./icons/checked.svg");
+        position: absolute;
+        left: 2px;
+        bottom: -1px;
+      }
+
+      &:active {
+        &::after {
+          content: url("./icons/checked.svg");
+          position: absolute;
+          left: 2px;
+          bottom: -1px;
+        }
+
+        &::before {
+          @include beforeElemStyle;
+          background: rgba(206, 233, 255, 0.35);
+        }
+      }
+    }
+
+    // Не выбран, отключен
+    &:not(:checked):disabled {
+      border: 1px solid $gray3;
+      background: $gray2;
+    }
+
+    // Выбран, отключен
+    &:checked:disabled {
+      background: $gray1;
+      border: 1px solid $gray3;
+
+      &::before {
+        content: url("./icons/unchecked.svg");
+        position: absolute;
+        left: 2px;
+        bottom: -1px;
+      }
+    }
+
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}

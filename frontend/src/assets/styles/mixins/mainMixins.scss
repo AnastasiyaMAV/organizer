@@ -1,0 +1,32 @@
+@import "../screen.scss";
+
+//анимация для логотипа
+@mixin animation-log {
+  $transition: all 0.2s ease-out;
+  animation: 10s linear 0s normal none infinite running rot;
+  -webkit-animation: 10s linear 0s normal none infinite running rot;
+  @keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+
+//стиль для кнопок на всех формах
+@mixin form__btnGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}

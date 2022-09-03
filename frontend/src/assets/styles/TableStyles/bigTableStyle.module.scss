@@ -1,0 +1,66 @@
+@import "src/assets/styles/main.scss";
+
+.title {
+  display: table-cell;
+  vertical-align: middle;
+  @include caption;
+  cursor: pointer;
+}
+
+.tableBody {
+  border-top: none !important;
+}
+
+tbody.tableBody tr {
+  cursor: pointer;
+}
+
+tbody.tableBody tr:hover {
+  background: $lightBlue;
+  border-top: 1px solid $lightBlue;
+  border-bottom: 1px solid $lightBlue;
+}
+
+tbody.tableBody td {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+tbody.tableBody p {
+  @include mainText;
+  margin: 15px 0;
+}
+
+.lastvalue {
+  width: 250px;
+}
+
+.btnGroup {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.tableBtn {
+  @include tableBtn;
+  @include mainText;
+  float: right;
+  display: none;
+}
+
+tr:hover .tableBtn {
+  display: inline-block;
+}
+
+.nextBtn {
+  @include linkBtn;
+  @include title;
+  display: flex;
+  margin: 0 auto;
+}
+
+.deleteBtn {
+  @include squareIconBtn;
+}

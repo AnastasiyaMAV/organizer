@@ -1,0 +1,67 @@
+@import "assets/styles/main.scss";
+
+.column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.tableTitle {
+  @include title;
+  padding: 30px 0px;
+}
+
+.tableBody {
+  border-top: none !important;
+}
+
+tbody.tableBody p {
+  @include subtitle;
+  text-align: end;
+}
+
+th {
+  @include subtitle;
+  color: $gray4;
+}
+
+.tableBodyRow {
+  border-bottom: 1px solid $lightBlue;
+}
+
+.tableBodyRow2 {
+  border-bottom: 1px solid transparent;
+}
+
+tr.tableBodyRow2 td {
+  padding-top: 25px;
+}
+
+#tableBodyRow2Column1 {
+  text-align: start;
+}
+
+.rightBorder {
+  border-right: double pink;
+}
+
+tr.tableTitle th {
+  text-align: center;
+}
+
+tr.tableTitle2 th {
+  text-align: end;
+  vertical-align: top;
+}
+
+tr.tableTitle th,
+tr.tableTitle2 th {
+  border-bottom: 1px solid $lightBlue;
+}
+
+#lastvalue {
+  @include mainText;
+  min-width: 60px;
+  text-align: end;
+  font-weight: 500;
+}

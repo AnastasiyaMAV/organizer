@@ -1,0 +1,22 @@
+@import "./colors.scss";
+@import "./mixins/mainMixins.scss";
+@import "./mixins/fontsMixins.scss";
+@import "./mixins/buttonsMixins.scss";
+@import "./screen.scss";
+
+$theme-colors: (
+  "primary": #e7e7e7,
+  "secondary": black,
+  "light": #f3f3f3,
+  "info": #358fff,
+  "dark": #020101,
+  "danger": #85aac5,
+  "warning": #024f94,
+);
+
+// анимация
+$transition: all 0.2s ease-out;
+
+// logo
+$logoHeight: 28px;
+$logoWidth: $logoHeight;

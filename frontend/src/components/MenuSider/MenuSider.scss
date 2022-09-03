@@ -1,0 +1,17 @@
+@import "../../assets/styles/main.scss";
+
+.indent {
+    height: 40px;
+}
+
+.menu-sider-header {
+    $pad: ($logoHeight / 2);
+    padding:$pad $pad $pad 26px;
+}
+.menu-sider-header__logo {
+    display: flex;
+    width: $logoWidth;
+    height: $logoHeight;
+    filter: brightness(400%);
+    @include animation-log;
+}
