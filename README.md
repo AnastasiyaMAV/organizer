@@ -2,11 +2,11 @@
 
 ---
 
- ![GitHub top language](https://img.shields.io/github/languages/top/AnastasiyaMAV/organizer?color=%23ffcc00) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AnastasiyaMAV/organizer?color=%23ffcc00) ! ![GitHub language count](https://img.shields.io/github/languages/count/AnastasiyaMAV/organizer?color=%23ffcc00)
+ ![GitHub top language](https://img.shields.io/github/languages/top/AnastasiyaMAV/organizer?color=%23ffcc00) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AnastasiyaMAV/organizer?color=%23ffcc00) ![GitHub language count](https://img.shields.io/github/languages/count/AnastasiyaMAV/organizer?color=%23ffcc00)
 
 ---
 
-![gif](https://github.com/AnastasiyaMAV/electronic_phone_book/blob/main/frontend.src/assets/Organizer.gif)
+![gif](https://github.com/AnastasiyaMAV/organizer/blob/main/frontend/src/assets/Organizer.gif)
 
 ---
 
